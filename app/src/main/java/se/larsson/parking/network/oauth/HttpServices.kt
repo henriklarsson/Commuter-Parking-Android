@@ -6,15 +6,25 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class HttpServices {
-    fun getOAuthService(): OAuthService{
+    fun getOAuthService(): ParkingService {
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://api.vasttrafik.se:443")
+            .baseUrl("https://api.vasttrafik.se/")
             .client(getOkHttpClient())
             .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-        return retrofit.create(OAuthService::class.java)
+        return retrofit.create(ParkingService::class.java)
+    }
+    fun getParkingService(): ParkingService {
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://api.vasttrafik.se/")
+            .client(getOkHttpClient())
+            .addCallAdapterFactory(CoroutineCallAdapterFactory())
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        return retrofit.create(ParkingService::class.java)
     }
 
     private fun getOkHttpClient() = OkHttpClient()
