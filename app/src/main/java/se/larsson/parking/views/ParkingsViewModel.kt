@@ -3,19 +3,17 @@ package se.larsson.parking.views
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.util.Log
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import se.larsson.parking.network.oauth.HttpServices
-import se.larsson.parking.network.oauth.models.ParkingArea
+import se.larsson.parking.network.oauth.models.ParkingLot
 
 class ParkingsViewModel: ViewModel() {
     private val TAG = ParkingsActivity::class.java.simpleName
-    val parkingAreas: MutableLiveData<List<ParkingArea>> by lazy {
-        MutableLiveData<List<ParkingArea>>()
-    }
-    fun getParkingAreas(){
-        GlobalScope.launch {
+    val parkingLots = MutableLiveData<MutableList<ParkingLot>>()
+
+    fun getParkingLots(){
+        GlobalScope.launch {// activity should create scope
             val oAuthService = HttpServices().getOAuthService()
             val accessToken = oAuthService.getAccessToken()
             val parkingService = HttpServices().getParkingService()
@@ -30,7 +28,10 @@ class ParkingsViewModel: ViewModel() {
             }
 //                Log.d(TAG, "Timestamp: ${await.timestamp}")
             Log.d(TAG, "Timestamp2: ${System.currentTimeMillis()}")
-            parkingAreas.postValue(await.body())
+            val reciviedParkingLots = mutableListOf<ParkingLot>()
+            val body = await.body()?.forEach { reciviedParkingLots.addAll(it.ParkingLots)  }
+
+            parkingLots.postValue(reciviedParkingLots)
 
         }
     }
