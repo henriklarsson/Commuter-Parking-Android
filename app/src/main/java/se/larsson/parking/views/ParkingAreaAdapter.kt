@@ -1,16 +1,15 @@
 package se.larsson.parking.views
 
+import android.opengl.Visibility
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import se.larsson.parking.R
 import se.larsson.parking.network.oauth.models.ParkingLot
-import android.R.attr.data
-
-
 
 
 class ParkingAreaAdapter (private var parkingLots: List<ParkingLot>) :
@@ -36,11 +35,24 @@ class ParkingAreaAdapter (private var parkingLots: List<ParkingLot>) :
         // - replace the contents of the view with that element
         val view = holder.view
         val item = parkingLots[position]
+        val imageView: ImageView = view.findViewById(R.id.parking_area_item_imageview_parking)
         val titleTextView: TextView = view.findViewById(R.id.parking_area_item_textview_title)
-        val infoTextView: TextView = view.findViewById(R.id.parking_area_item_textview_info)
+        val numberOfParkingsTextView: TextView = view.findViewById(R.id.parking_area_item_textview_number_of_parkings)
+        val freeParkingsTextView: TextView = view.findViewById(R.id.parking_area_item_textview_free_parkings)
         titleTextView.text = item.Name
 
-        infoTextView.text = "Total spaces ${item.TotalCapacity} Free spaces: ${item.FreeSpaces}"
+        numberOfParkingsTextView.text = "Total spaces ${item.TotalCapacity}"
+        if (item.FreeSpaces == null){
+            freeParkingsTextView.visibility = View.GONE
+        } else {
+            freeParkingsTextView.text = "Free spaces ${item.FreeSpaces}"
+            freeParkingsTextView.visibility = View.VISIBLE
+        }
+        if (item.ParkingCameras?.isNotEmpty() == true){
+            imageView.setImageResource(R.drawable.abc_ic_star_black_48dp)
+        }
+
+
     }
 
     fun setData(newData: List<ParkingLot>) {
