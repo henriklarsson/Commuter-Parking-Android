@@ -12,7 +12,7 @@ import se.larsson.parking.R
 import se.larsson.parking.network.oauth.models.ParkingLot
 
 
-class ParkingAreaAdapter (private var parkingLots: List<ParkingLot>) :
+class ParkingAreaAdapter (private var parkingLots: List<ParkingLot>, private val listener: OnItemClickListener) :
     RecyclerView.Adapter<ParkingAreaAdapter.ParkingAreaViewHolder>() {
 
 
@@ -50,7 +50,11 @@ class ParkingAreaAdapter (private var parkingLots: List<ParkingLot>) :
         }
         if (item.ParkingCameras?.isNotEmpty() == true){
             imageView.setImageResource(R.drawable.abc_ic_star_black_48dp)
+                view.setOnClickListener { listener.onItemClick(parkingLots[position])
+
+                }
         }
+
 
 
     }

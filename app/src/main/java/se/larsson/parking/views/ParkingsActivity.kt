@@ -22,7 +22,11 @@ import kotlinx.android.synthetic.main.activity_main.*
 import se.larsson.parking.R
 import se.larsson.parking.network.oauth.models.ParkingLot
 
-class ParkingsActivity : AppCompatActivity() {
+class ParkingsActivity : AppCompatActivity(), OnItemClickListener {
+    override fun onItemClick(item: ParkingLot) {
+        Log.d(TAG, "On item clicked ${item.toString()}")
+    }
+
     private val TAG = ParkingsActivity::class.java.simpleName
     private val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: Int = 2001
 //    private lateinit var recyclerView: RecyclerView
@@ -43,7 +47,7 @@ class ParkingsActivity : AppCompatActivity() {
 
 
         viewManager = LinearLayoutManager(this)
-        viewAdapter = ParkingAreaAdapter(parkingLots = viewModel.parkingLots.value ?: mutableListOf<ParkingLot>())
+        viewAdapter = ParkingAreaAdapter(parkingLots = viewModel.parkingLots.value ?: mutableListOf(), listener = this)
         parkings_recycler_view.adapter = viewAdapter
         parkings_recycler_view.layoutManager = viewManager
         // Create the observer which updates the UI.
