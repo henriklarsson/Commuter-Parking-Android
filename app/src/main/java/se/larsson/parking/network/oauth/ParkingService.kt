@@ -14,5 +14,9 @@ interface ParkingService {
 
     @GET("/spp/v3/parkings")
     fun getParkings(@Header("Authorization" ) authorization: String,
-                    @Query("format") format: String = "json") : Deferred<Response<List<ParkingArea>>>
+                    @Query("format") format: String = "json",
+                    @Query( "lat") lat: Double? = null,
+                    @Query( "lon") lon: Double? = null,
+                    @Query("dist") dist: Int? = null,
+                    @Query("max") max: Int? = null): Deferred<Response<List<ParkingArea>>>
 }
