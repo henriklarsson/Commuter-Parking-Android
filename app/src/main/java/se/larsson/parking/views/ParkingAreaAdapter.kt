@@ -1,5 +1,6 @@
 package se.larsson.parking.views
 
+import android.content.Context
 import android.opengl.Visibility
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
@@ -8,11 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import se.larsson.parking.R
+import com.bumptech.glide.Glide
 import se.larsson.parking.network.oauth.models.ParkingLot
+import com.bumptech.glide.load.model.LazyHeaders
+import com.bumptech.glide.load.model.GlideUrl
+import se.larsson.parking.R
 
-
-class ParkingAreaAdapter (private var parkingLots: List<ParkingLot>, private val listener: OnItemClickListener) :
+class ParkingAreaAdapter (private var parkingLots: List<ParkingLot>, private val listener: OnItemClickListener, private val context: Context) :
     RecyclerView.Adapter<ParkingAreaAdapter.ParkingAreaViewHolder>() {
 
 
@@ -49,7 +52,10 @@ class ParkingAreaAdapter (private var parkingLots: List<ParkingLot>, private val
             freeParkingsTextView.visibility = View.VISIBLE
         }
         if (item.ParkingCameras?.isNotEmpty() == true){
-            imageView.setImageResource(R.drawable.abc_ic_star_black_48dp)
+
+
+
+            Glide.with(context).load(getUrl()).into(imageView);
                 view.setOnClickListener { listener.onItemClick(parkingLots[position])
 
                 }
@@ -57,6 +63,13 @@ class ParkingAreaAdapter (private var parkingLots: List<ParkingLot>, private val
 
 
 
+    }
+    fun getUrl(): GlideUrl{
+        return  GlideUrl(
+            "https://api.vasttrafik.se/spp/v3/parkingImages/5030/1", LazyHeaders.Builder()
+                .addHeader("Authorization", "Bearer ab376788-1d0e-3db7-8677-2b403067be87")
+                .build()
+        )
     }
 
     fun setData(newData: List<ParkingLot>) {

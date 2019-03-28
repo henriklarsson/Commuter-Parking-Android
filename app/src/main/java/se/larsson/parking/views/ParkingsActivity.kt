@@ -47,7 +47,7 @@ class ParkingsActivity : AppCompatActivity(), OnItemClickListener {
 
 
         viewManager = LinearLayoutManager(this)
-        viewAdapter = ParkingAreaAdapter(parkingLots = viewModel.parkingLots.value ?: mutableListOf(), listener = this)
+        viewAdapter = ParkingAreaAdapter(parkingLots = viewModel.parkingLots.value ?: mutableListOf(), listener = this, context = this)
         parkings_recycler_view.adapter = viewAdapter
         parkings_recycler_view.layoutManager = viewManager
         // Create the observer which updates the UI.
