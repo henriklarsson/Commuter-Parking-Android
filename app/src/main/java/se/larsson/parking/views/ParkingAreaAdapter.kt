@@ -1,7 +1,6 @@
 package se.larsson.parking.views
 
 import android.content.Context
-import android.opengl.Visibility
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
