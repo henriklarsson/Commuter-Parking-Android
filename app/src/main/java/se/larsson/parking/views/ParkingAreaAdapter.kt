@@ -1,6 +1,7 @@
 package se.larsson.parking.views
 
 import android.content.Context
+import android.opengl.Visibility
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -40,6 +41,9 @@ class ParkingAreaAdapter (private var parkingLots: List<ParkingLot>, private val
         val view = holder.view
         val item = parkingLots[position]
         val imageView: ImageView = view.findViewById(R.id.parking_area_item_imageview_parking)
+        val cameraOne: ImageView = view.findViewById(R.id.parking_area_item_imageview_camera_one)
+        val cameraTwo: ImageView = view.findViewById(R.id.parking_area_item_imageview_camera_two)
+
         val titleTextView: TextView = view.findViewById(R.id.parking_area_item_textview_title)
         val numberOfParkingsTextView: TextView = view.findViewById(R.id.parking_area_item_textview_number_of_parkings)
         val freeParkingsTextView: TextView = view.findViewById(R.id.parking_area_item_textview_free_parkings)
@@ -58,8 +62,18 @@ class ParkingAreaAdapter (private var parkingLots: List<ParkingLot>, private val
             freeParkingsTextView.text = "Free spaces ${item.FreeSpaces}"
             freeParkingsTextView.visibility = View.VISIBLE
         }
-        if (item.ParkingCameras?.isNotEmpty() == true){
 
+        cameraOne.visibility = View.GONE
+        cameraTwo.visibility = View.GONE
+        if (item.ParkingCameras?.isNotEmpty() == true){
+            if (item.ParkingCameras.size == 1){
+                cameraOne.visibility = View.VISIBLE
+
+
+            } else if  (item.ParkingCameras.size > 1){
+                cameraOne.visibility = View.VISIBLE
+                cameraTwo.visibility = View.VISIBLE
+            }
 
 
 //            Glide.with(context).load(getUrl()).into(imageView);
