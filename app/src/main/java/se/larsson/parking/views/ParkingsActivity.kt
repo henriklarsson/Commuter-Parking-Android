@@ -13,18 +13,30 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 
 import kotlinx.android.synthetic.main.activity_main.*
 import se.larsson.parking.R
+import se.larsson.parking.network.oauth.models.ParkingCamera
 import se.larsson.parking.network.oauth.models.ParkingLot
+import android.widget.RelativeLayout
+import android.content.DialogInterface
+import android.graphics.drawable.ColorDrawable
+import android.view.Window.FEATURE_NO_TITLE
+import android.app.Dialog
+import android.net.Uri
+import android.view.*
+import android.widget.ImageView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.model.GlideUrl
+import com.bumptech.glide.load.model.LazyHeaders
+
 
 class ParkingsActivity : AppCompatActivity(), OnItemClickListener {
-    override fun onItemClick(item: ParkingLot) {
+    override fun onItemClick(item: ParkingLot, camera: ParkingCamera) {
         Log.d(TAG, "On item clicked ${item.toString()}")
+        showImage()
     }
 
     private val TAG = ParkingsActivity::class.java.simpleName
@@ -75,7 +87,7 @@ class ParkingsActivity : AppCompatActivity(), OnItemClickListener {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
+        menuInflater.inflate(se.larsson.parking.R.menu.menu_main, menu)
         return true
     }
 
@@ -89,6 +101,37 @@ class ParkingsActivity : AppCompatActivity(), OnItemClickListener {
         }
     }
 
+    fun showImage() {
+        val builder = Dialog(this)
+        builder.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        builder.getWindow().setBackgroundDrawable(
+            ColorDrawable(android.graphics.Color.TRANSPARENT)
+        )
+        builder.setOnDismissListener(DialogInterface.OnDismissListener {
+            //nothing;
+        })
+
+        val imageView = ImageView(this)
+        imageView.visibility = View.VISIBLE
+        Glide.with(this)
+            .load(getUrl())
+            .into(imageView);
+        builder.addContentView(
+            imageView, RelativeLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            )
+        )
+        builder.show()
+    }
+
+    fun getUrl(): GlideUrl {
+        return  GlideUrl(
+            "https://api.vasttrafik.se/spp/v3/parkingImages/5030/1", LazyHeaders.Builder()
+                .addHeader("Authorization", "Bearer 66fb8332-010a-362a-bfba-725f6cc4a733")
+                .build()
+        )
+    }
 
 
     private fun checkLocationPermission(){

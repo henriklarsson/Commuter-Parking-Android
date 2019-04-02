@@ -68,9 +68,20 @@ class ParkingAreaAdapter (private var parkingLots: List<ParkingLot>, private val
         if (item.ParkingCameras?.isNotEmpty() == true){
             if (item.ParkingCameras.size == 1){
                 cameraOne.visibility = View.VISIBLE
+                cameraOne.setOnClickListener {
+                    listener.onItemClick(parkingLots[position], parkingLots[position].ParkingCameras!![0]!!)
+                }
 
 
             } else if  (item.ParkingCameras.size > 1){
+                cameraOne.setOnClickListener {
+                    listener.onItemClick(parkingLots[position], parkingLots[position].ParkingCameras!![0]!!)
+                }
+
+                cameraTwo.setOnClickListener {
+                    listener.onItemClick(parkingLots[position], parkingLots[position].ParkingCameras!![1]!!)
+                }
+
                 cameraOne.visibility = View.VISIBLE
                 cameraTwo.visibility = View.VISIBLE
             }
@@ -85,13 +96,7 @@ class ParkingAreaAdapter (private var parkingLots: List<ParkingLot>, private val
 
 
     }
-    fun getUrl(): GlideUrl{
-        return  GlideUrl(
-            "https://api.vasttrafik.se/spp/v3/parkingImages/5030/1", LazyHeaders.Builder()
-                .addHeader("Authorization", "Bearer ab376788-1d0e-3db7-8677-2b403067be87")
-                .build()
-        )
-    }
+
 
     fun setData(newData: List<ParkingLot>) {
         this.parkingLots = newData
