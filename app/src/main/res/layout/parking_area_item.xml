@@ -2,7 +2,7 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
 									xmlns:card_view="http://schemas.android.com/apk/res-auto"
 									xmlns:app="http://schemas.android.com/apk/res-auto"
-									android:layout_width="match_parent"
+									xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
 									android:layout_height="wrap_content"
 									android:layout_margin="24dp"
 									android:translationZ="24dp"
@@ -22,8 +22,8 @@
 				  app:layout_constraintTop_toTopOf="parent"
 				  app:layout_constraintEnd_toEndOf="parent"/>
 		<ImageView
-				android:layout_height="100dp"
-				android:layout_width="100dp"
+				android:layout_height="50dp"
+				android:layout_width="50dp"
 				android:id="@+id/parking_area_item_imageview_parking"
 
 				android:contentDescription="@string/parking_area_title"
@@ -39,31 +39,40 @@
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toBottomOf="@+id/parking_area_item_textview_title"
 				app:layout_constraintEnd_toStartOf="@+id/parking_area_item_textview_number_of_parkings"
-		/>
+				card_view:layout_constraintHorizontal_chainStyle="spread_inside"/>
 		<TextView
 				android:id="@+id/parking_area_item_textview_number_of_parkings"
 				android:text="Total parking"
-				android:layout_width="0dp"
+				android:layout_width="150dp"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="8dp"
-				android:layout_marginEnd="8dp"
 				android:textSize="18sp"
 				app:layout_constraintTop_toBottomOf="@+id/parking_area_item_textview_title"
 				app:layout_constraintStart_toEndOf="@+id/parking_area_item_imageview_parking"
-				app:layout_constraintEnd_toEndOf="parent"/>
+				android:layout_marginStart="4dp"/>
 		<TextView
 				android:id="@+id/parking_area_item_textview_free_parkings"
 				android:text="TextView"
-				android:layout_width="0dp"
+				android:layout_width="150dp"
 				android:layout_height="wrap_content"
-				android:layout_marginStart="8dp"
 				android:layout_marginTop="8dp"
-				android:layout_marginEnd="8dp"
 				android:layout_marginBottom="8dp"
 				android:textSize="18sp"
 				app:layout_constraintStart_toEndOf="@+id/parking_area_item_imageview_parking"
 				app:layout_constraintTop_toBottomOf="@+id/parking_area_item_textview_number_of_parkings"
-				app:layout_constraintEnd_toEndOf="parent"
-				app:layout_constraintBottom_toBottomOf="parent"/>
+				app:layout_constraintBottom_toBottomOf="parent" android:layout_marginStart="4dp"
+		/>
+		<ImageView
+				android:layout_width="50dp"
+				android:layout_height="50dp"
+				app:srcCompat="?attr/colorError"
+				tools:layout_editor_absoluteY="56dp" tools:layout_editor_absoluteX="211dp"
+				android:id="@+id/imageView4"/>
+		<ImageView
+				android:layout_width="50dp"
+				android:layout_height="50dp"
+				app:srcCompat="?attr/colorError"
+				tools:layout_editor_absoluteY="56dp" tools:layout_editor_absoluteX="280dp"
+				android:id="@+id/imageView5"/>
 	</android.support.constraint.ConstraintLayout>
 </android.support.v7.widget.CardView>
