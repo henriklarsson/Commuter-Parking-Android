@@ -19,7 +19,7 @@ package se.larsson.parking.network.oauth.models
  */
 data class ParkingType (
     /* The parking lot type */
-    val name: Name,
+    val name: String,
     val Number: kotlin.Int
 ) {
 

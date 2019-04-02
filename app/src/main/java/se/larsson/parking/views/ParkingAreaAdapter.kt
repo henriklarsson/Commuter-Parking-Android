@@ -13,6 +13,8 @@ import se.larsson.parking.network.oauth.models.ParkingLot
 import com.bumptech.glide.load.model.LazyHeaders
 import com.bumptech.glide.load.model.GlideUrl
 import se.larsson.parking.R
+import se.larsson.parking.network.oauth.models.ParkingType
+import se.larsson.parking.network.oauth.models.ParkingType.*
 
 class ParkingAreaAdapter (private var parkingLots: List<ParkingLot>, private val listener: OnItemClickListener, private val context: Context) :
     RecyclerView.Adapter<ParkingAreaAdapter.ParkingAreaViewHolder>() {
@@ -43,6 +45,12 @@ class ParkingAreaAdapter (private var parkingLots: List<ParkingLot>, private val
         val freeParkingsTextView: TextView = view.findViewById(R.id.parking_area_item_textview_free_parkings)
         titleTextView.text = item.Name
 
+        when (item.ParkingType.Number){
+
+            1 -> imageView.setImageResource(R.drawable.parking_icon_96) // parking
+            2 -> imageView.setImageResource(R.drawable.smart_parking_icon_96) // smart parking
+        }
+
         numberOfParkingsTextView.text = "Total spaces ${item.TotalCapacity}"
         if (item.FreeSpaces == null){
             freeParkingsTextView.visibility = View.GONE
@@ -54,10 +62,10 @@ class ParkingAreaAdapter (private var parkingLots: List<ParkingLot>, private val
 
 
 
-            Glide.with(context).load(getUrl()).into(imageView);
-                view.setOnClickListener { listener.onItemClick(parkingLots[position])
-
-                }
+//            Glide.with(context).load(getUrl()).into(imageView);
+//                view.setOnClickListener { listener.onItemClick(parkingLots[position])
+//
+//                }
         }
 
 
