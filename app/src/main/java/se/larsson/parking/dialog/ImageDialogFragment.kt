@@ -35,8 +35,7 @@ class ImageDialogFragment : DialogFragment() {
         val view = layoutInflater.inflate(R.layout.image_dialog, null)
         dialog.setContentView(view)
         val imageView = view.findViewById(R.id.imageView) as ImageView
-        val fab = view.findViewById(R.id.fab) as FloatingActionButton
-        fab.setOnClickListener {
+        view.setOnClickListener {
             dialog.dismiss()
         }
         imageView.visibility = View.VISIBLE

@@ -22,7 +22,7 @@
 														android:layout_height="wrap_content"
 														app:layout_constraintTop_toTopOf="parent"
 														app:layout_constraintStart_toStartOf="parent"
-														android:layout_marginTop="32dp"
-														android:layout_marginStart="32dp"
+														android:layout_marginTop="28dp"
+														android:layout_marginStart="336dp"
 														app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"/>
 </android.support.constraint.ConstraintLayout>
