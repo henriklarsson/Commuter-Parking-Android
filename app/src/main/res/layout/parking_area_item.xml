@@ -36,7 +36,7 @@
 
 				app:layout_constraintBottom_toBottomOf="parent"
 				app:layout_constraintVertical_bias="0.0"
-				app:srcCompat="@drawable/parking_icon_96"
+				app:srcCompat="@drawable/round_icon_gray_2"
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toBottomOf="@+id/parking_area_item_textview_title"
 				app:layout_constraintEnd_toStartOf="@+id/parking_area_item_textview_number_of_parkings"
@@ -67,7 +67,8 @@
 
 				android:layout_width="50dp"
 				android:layout_height="50dp"
-				app:srcCompat="?attr/colorError"
+				app:srcCompat="@drawable/icon_camera_1"
+
 				android:id="@+id/parking_area_item_imageview_camera_one"
 				card_view:layout_constraintStart_toStartOf="@+id/guideline"
 				android:layout_marginStart="8dp" android:layout_marginTop="8dp"
@@ -76,7 +77,7 @@
 		<ImageView
 				android:layout_width="50dp"
 				android:layout_height="50dp"
-				app:srcCompat="?attr/colorError"
+				app:srcCompat="@drawable/icon_camera_2"
 				android:id="@+id/parking_area_item_imageview_camera_two"
 				android:layout_marginStart="8dp"
 				card_view:layout_constraintStart_toEndOf="@+id/parking_area_item_imageview_camera_one" android:layout_marginTop="8dp"
