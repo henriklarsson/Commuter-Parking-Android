@@ -24,11 +24,14 @@ import android.view.*
 import se.larsson.parking.dialog.ImageDialogFragment
 
 
+
+
+
 class ParkingsActivity : AppCompatActivity(), OnItemClickListener {
     var viewModel: ParkingsViewModel? = null
     override fun onItemClick(item: ParkingLot, camera: ParkingCamera) {
         Log.d(TAG, "On item clicked ${item.toString()}")
-        showImage()
+        showImage("${item.Id}/${camera.Id}")
     }
 
     private val TAG = ParkingsActivity::class.java.simpleName
@@ -93,10 +96,18 @@ class ParkingsActivity : AppCompatActivity(), OnItemClickListener {
         }
     }
 
-    fun showImage() {
+    fun showImage(handle: String) {
         val manager = supportFragmentManager
+        val args = Bundle()
         val alertDialogFragment =  ImageDialogFragment()
-        alertDialogFragment.show(manager, "ImageDialogFragment");
+        viewModel?.token?.let{
+            args.putString(ImageDialogFragment.TOKEN, it)
+        }
+        args.putString(ImageDialogFragment.CAMERA_NUMBER, handle)
+
+        alertDialogFragment.arguments = args
+        alertDialogFragment.show(manager, "ImageDialogFragment")
+
 
     }
 

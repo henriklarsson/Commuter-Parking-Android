@@ -6,11 +6,13 @@ import android.location.Location
 import android.util.Log
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import se.larsson.parking.network.oauth.AccessToken
 import se.larsson.parking.network.oauth.HttpServices
 import se.larsson.parking.network.oauth.models.ParkingLot
 
 class ParkingsViewModel: ViewModel() {
     private val TAG = ParkingsActivity::class.java.simpleName
+    var token: String? = null
     val parkingLots = MutableLiveData<MutableList<ParkingLot>>()
     private val searchDistance: Int = 15 // km
 
@@ -20,6 +22,7 @@ class ParkingsViewModel: ViewModel() {
             val accessToken = oAuthService.getAccessToken()
             val parkingService = HttpServices().getParkingService()
             val tokenResponse = accessToken.await()
+            token = tokenResponse.body()?.access_token
             Log.d(TAG, tokenResponse.body()?.access_token)
             val parkings =
                 parkingService.getParkings(authorization = "Bearer ${tokenResponse?.body()?.access_token!!}",

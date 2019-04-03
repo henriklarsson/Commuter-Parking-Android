@@ -44,11 +44,11 @@ class ParkingAreaAdapter (private var parkingLots: List<ParkingLot>, private val
         val freeParkingsTextView: TextView = view.findViewById(R.id.parking_area_item_textview_free_parkings)
         titleTextView.text = item.Name
 
-        when (item.ParkingType.Number){
-
-            1 -> imageView.setImageResource(R.drawable.parking_icon_96) // parking
-            2 -> imageView.setImageResource(R.drawable.smart_parking_icon_96) // smart parking
-        }
+//        when (item.ParkingType.Number){
+//
+//            1 -> imageView.setImageResource(R.drawable.icons8_parking_96) // parking
+//            2 -> imageView.setImageResource(R.drawable.icons8_parking_96) // smart parking
+//        }
 
         numberOfParkingsTextView.text = "Total spaces ${item.TotalCapacity}"
         if (item.FreeSpaces == null){

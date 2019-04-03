@@ -36,7 +36,7 @@
 
 				app:layout_constraintBottom_toBottomOf="parent"
 				app:layout_constraintVertical_bias="0.0"
-				app:srcCompat="@drawable/round_icon_gray_2"
+				app:srcCompat="@drawable/icons_parking_96"
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toBottomOf="@+id/parking_area_item_textview_title"
 				app:layout_constraintEnd_toStartOf="@+id/parking_area_item_textview_number_of_parkings"
