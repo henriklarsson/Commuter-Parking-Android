@@ -9,13 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import com.bumptech.glide.Glide
 import se.larsson.parking.network.oauth.models.ParkingLot
-import com.bumptech.glide.load.model.LazyHeaders
-import com.bumptech.glide.load.model.GlideUrl
 import se.larsson.parking.R
-import se.larsson.parking.network.oauth.models.ParkingType
-import se.larsson.parking.network.oauth.models.ParkingType.*
 
 class ParkingAreaAdapter (private var parkingLots: List<ParkingLot>, private val listener: OnItemClickListener, private val context: Context) :
     RecyclerView.Adapter<ParkingAreaAdapter.ParkingAreaViewHolder>() {

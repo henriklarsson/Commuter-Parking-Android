@@ -26,11 +26,14 @@ import android.graphics.drawable.ColorDrawable
 import android.view.Window.FEATURE_NO_TITLE
 import android.app.Dialog
 import android.net.Uri
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
 import android.view.*
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.load.model.LazyHeaders
+import se.larsson.parking.dialog.ImageDialogFragment
 
 
 class ParkingsActivity : AppCompatActivity(), OnItemClickListener {
@@ -102,27 +105,10 @@ class ParkingsActivity : AppCompatActivity(), OnItemClickListener {
     }
 
     fun showImage() {
-        val builder = Dialog(this)
-        builder.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        builder.getWindow().setBackgroundDrawable(
-            ColorDrawable(android.graphics.Color.TRANSPARENT)
-        )
-        builder.setOnDismissListener(DialogInterface.OnDismissListener {
-            //nothing;
-        })
+        val manager = supportFragmentManager
+        val alertDialogFragment =  ImageDialogFragment()
+        alertDialogFragment.show(manager, "ImageDialogFragment");
 
-        val imageView = ImageView(this)
-        imageView.visibility = View.VISIBLE
-        Glide.with(this)
-            .load(getUrl())
-            .into(imageView);
-        builder.addContentView(
-            imageView, RelativeLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT
-            )
-        )
-        builder.show()
     }
 
     fun getUrl(): GlideUrl {
