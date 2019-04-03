@@ -20,23 +20,12 @@ import kotlinx.android.synthetic.main.activity_main.*
 import se.larsson.parking.R
 import se.larsson.parking.network.oauth.models.ParkingCamera
 import se.larsson.parking.network.oauth.models.ParkingLot
-import android.widget.RelativeLayout
-import android.content.DialogInterface
-import android.graphics.drawable.ColorDrawable
-import android.view.Window.FEATURE_NO_TITLE
-import android.app.Dialog
-import android.net.Uri
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
 import android.view.*
-import android.widget.ImageView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.model.GlideUrl
-import com.bumptech.glide.load.model.LazyHeaders
 import se.larsson.parking.dialog.ImageDialogFragment
 
 
 class ParkingsActivity : AppCompatActivity(), OnItemClickListener {
+    var viewModel: ParkingsViewModel? = null
     override fun onItemClick(item: ParkingLot, camera: ParkingCamera) {
         Log.d(TAG, "On item clicked ${item.toString()}")
         showImage()
@@ -51,18 +40,18 @@ class ParkingsActivity : AppCompatActivity(), OnItemClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        viewModel = ViewModelProviders.of(this).get(ParkingsViewModel::class.java)
         checkLocationPermission()
-        val viewModel = ViewModelProviders.of(this).get(ParkingsViewModel::class.java)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         fusedLocationClient.lastLocation
             .addOnSuccessListener { location : Location? ->
                 Log.d(TAG, "location: ${location.toString()}")
-                viewModel.getParkingLots(userLat = location?.latitude, userLong = location?.longitude)
+                viewModel?.getParkingLots(userLat = location?.latitude, userLong = location?.longitude)
             }
 
 
         viewManager = LinearLayoutManager(this)
-        viewAdapter = ParkingAreaAdapter(parkingLots = viewModel.parkingLots.value ?: mutableListOf(), listener = this, context = this)
+        viewAdapter = ParkingAreaAdapter(parkingLots = viewModel!!.parkingLots.value ?: mutableListOf(), listener = this, context = this)
         parkings_recycler_view.adapter = viewAdapter
         parkings_recycler_view.layoutManager = viewManager
         // Create the observer which updates the UI.
@@ -74,12 +63,12 @@ class ParkingsActivity : AppCompatActivity(), OnItemClickListener {
             }
 
         }
-        viewModel.parkingLots.observe(this, nameObserver)
+        viewModel!!.parkingLots.observe(this, nameObserver)
 
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
-            viewModel.getParkingLots()
+            viewModel!!.getParkingLots()
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
             viewAdapter.notifyDataSetChanged()
@@ -110,15 +99,6 @@ class ParkingsActivity : AppCompatActivity(), OnItemClickListener {
         alertDialogFragment.show(manager, "ImageDialogFragment");
 
     }
-
-    fun getUrl(): GlideUrl {
-        return  GlideUrl(
-            "https://api.vasttrafik.se/spp/v3/parkingImages/5030/1", LazyHeaders.Builder()
-                .addHeader("Authorization", "Bearer 66fb8332-010a-362a-bfba-725f6cc4a733")
-                .build()
-        )
-    }
-
 
     private fun checkLocationPermission(){
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)

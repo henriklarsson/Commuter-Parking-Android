@@ -2,13 +2,18 @@ package se.larsson.parking.dialog
 
 import android.app.Dialog
 import android.content.Context
+import android.net.Uri
 import android.os.Bundle
+import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.DialogFragment
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.model.GlideUrl
+import com.bumptech.glide.load.model.LazyHeaders
 import se.larsson.parking.R
 
 
@@ -27,18 +32,27 @@ class ImageDialogFragment : DialogFragment() {
 
         val view = layoutInflater.inflate(R.layout.image_dialog, null)
         dialog.setContentView(view)
-
-
-
-//
-//
-      val imageView = view.findViewById(R.id.imageView) as ImageView
+        val imageView = view.findViewById(R.id.imageView) as ImageView
+        val fab = view.findViewById(R.id.fab) as FloatingActionButton
+        fab.setOnClickListener {
+            dialog.dismiss()
+        }
         imageView.visibility = View.VISIBLE
-
-
+        Glide.with(context!!)
+            .load(getUrl())
+            .into(imageView)
+        dialog.window.setBackgroundDrawableResource(android.R.color.transparent);
         dialog.setTitle("Item Details")
         dialog.show()
 
         return dialog
+    }
+
+    fun getUrl(): GlideUrl {
+        return  GlideUrl(
+            "https://api.vasttrafik.se/spp/v3/parkingImages/5030/1", LazyHeaders.Builder()
+                .addHeader("Authorization", "Bearer f96ae5c9-57f7-305e-9fa6-7897f1232ab0")
+                .build()
+        )
     }
 }
