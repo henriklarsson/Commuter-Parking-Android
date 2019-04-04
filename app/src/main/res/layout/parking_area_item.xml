@@ -64,22 +64,29 @@
 				app:layout_constraintTop_toBottomOf="@+id/parking_area_item_textview_number_of_parkings"
 				app:layout_constraintBottom_toBottomOf="parent"
 				card_view:layout_constraintEnd_toStartOf="@+id/guideline" android:layout_marginStart="4dp"/>
-		<ImageView
-
-				android:layout_width="50dp"
-				android:layout_height="50dp"
-				app:srcCompat="@drawable/icon_camera_1"
-
+		<de.hdodenhof.circleimageview.CircleImageView
+				xmlns:app="http://schemas.android.com/apk/res-auto"
 				android:id="@+id/parking_area_item_imageview_camera_one"
+				android:layout_width="75dp"
+				android:layout_height="75dp"
+				android:src="@drawable/icon_camera_1"
+				app:civ_border_width="2dp"
+				app:civ_border_color="#333f4f"
 				card_view:layout_constraintStart_toStartOf="@+id/guideline"
-				android:layout_marginStart="15dp" android:layout_marginTop="11dp"
+				android:layout_marginStart="15dp"
+				android:layout_marginTop="11dp"
 				card_view:layout_constraintTop_toBottomOf="@+id/parking_area_item_textview_title"
-				card_view:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="11dp"
+				card_view:layout_constraintBottom_toBottomOf="parent"
+				android:layout_marginBottom="11dp"
 				card_view:layout_constraintVertical_bias="1.0"
 				android:layout_marginEnd="15dp" card_view:layout_constraintEnd_toStartOf="@+id/guideline2"/>
-		<ImageView
-				android:layout_width="48dp"
-				android:layout_height="50dp"
+
+
+		<de.hdodenhof.circleimageview.CircleImageView
+				android:layout_width="75dp"
+				android:layout_height="75dp"
+				app:civ_border_width="2dp"
+				app:civ_border_color="#333f4f"
 				app:srcCompat="@drawable/icon_camera_2"
 				android:id="@+id/parking_area_item_imageview_camera_two"
 				android:layout_marginTop="11dp"
@@ -88,6 +95,7 @@
 				card_view:layout_constraintVertical_bias="1.0" android:layout_marginStart="8dp"
 				card_view:layout_constraintStart_toStartOf="@+id/guideline2" android:layout_marginEnd="8dp"
 				card_view:layout_constraintEnd_toEndOf="parent"/>
+
 		<android.support.constraint.Guideline android:layout_width="wrap_content" android:layout_height="wrap_content"
 											  android:id="@+id/guideline" card_view:layout_constraintGuide_begin="204dp"
 											  android:orientation="vertical"/>
