@@ -9,13 +9,13 @@
 									android:translationZ="24dp"
 									card_view:cardCornerRadius="16dp">
 	<android.support.constraint.ConstraintLayout android:layout_width="match_parent"
-												 android:layout_height="wrap_content">
+												 android:layout_height="128dp">
 
 		<TextView android:id="@+id/parking_area_item_textview_title"
 				  android:layout_width="match_parent"
-				  android:layout_height="wrap_content"
+				  android:layout_height="27dp"
 				  android:text="@string/parking_area_title"
-				  android:layout_marginTop="8dp"
+				  android:layout_marginTop="4dp"
 				  android:layout_marginEnd="16dp"
 				  android:textSize="24sp"
 				  android:layout_marginStart="8dp"
@@ -28,8 +28,6 @@
 				android:id="@+id/parking_area_item_imageview_parking"
 
 				android:contentDescription="@string/parking_area_title"
-				android:layout_marginBottom="8dp"
-				android:layout_marginTop="8dp"
 				android:cropToPadding="false"
 				android:adjustViewBounds="true"
 
@@ -39,62 +37,63 @@
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toBottomOf="@+id/parking_area_item_textview_title"
 				app:layout_constraintEnd_toStartOf="@+id/parking_area_item_textview_number_of_parkings"
-				card_view:layout_constraintHorizontal_chainStyle="spread_inside"/>
+				android:layout_marginStart="8dp" android:layout_marginTop="8dp"
+				card_view:layout_constraintTop_toTopOf="@+id/guideline5"
+				card_view:layout_constraintBottom_toTopOf="@+id/guideline5"/>
 		<TextView
 				android:id="@+id/parking_area_item_textview_number_of_parkings"
 				android:text="Total parking"
-				android:layout_width="0dp"
+				android:layout_width="142dp"
 				android:layout_height="wrap_content"
-				android:layout_marginTop="8dp"
 				android:textSize="18sp"
-				app:layout_constraintTop_toBottomOf="@+id/parking_area_item_textview_title"
 				app:layout_constraintStart_toEndOf="@+id/parking_area_item_imageview_parking"
-				card_view:layout_constraintEnd_toStartOf="@+id/guideline"
 
+				android:layout_marginBottom="8dp" card_view:layout_constraintBottom_toTopOf="@+id/guideline5"
+				card_view:layout_constraintEnd_toStartOf="@+id/guideline" android:layout_marginEnd="4dp"
 				android:layout_marginStart="4dp"/>
 		<TextView
 				android:id="@+id/parking_area_item_textview_free_parkings"
 				android:text="TextView"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
-				android:layout_marginTop="8dp"
-				android:layout_marginBottom="8dp"
 				android:textSize="18sp"
-				app:layout_constraintStart_toEndOf="@+id/parking_area_item_imageview_parking"
-				app:layout_constraintTop_toBottomOf="@+id/parking_area_item_textview_number_of_parkings"
-				app:layout_constraintBottom_toBottomOf="parent"
-				card_view:layout_constraintEnd_toStartOf="@+id/guideline" android:layout_marginStart="4dp"/>
+				card_view:layout_constraintEnd_toStartOf="@+id/guideline"
+				android:layout_marginEnd="4dp"
+				card_view:layout_constraintStart_toEndOf="@+id/parking_area_item_imageview_parking"
+				android:layout_marginStart="4dp" android:layout_marginTop="8dp"
+				card_view:layout_constraintTop_toTopOf="@+id/guideline5" android:layout_marginBottom="8dp"
+				card_view:layout_constraintBottom_toBottomOf="parent"/>
 		<de.hdodenhof.circleimageview.CircleImageView
 				xmlns:app="http://schemas.android.com/apk/res-auto"
 				android:id="@+id/parking_area_item_imageview_camera_one"
-				android:layout_width="75dp"
-				android:layout_height="75dp"
+				android:layout_width="50dp"
+				android:layout_height="50dp"
 				android:src="@drawable/icon_camera_1"
 				app:civ_border_width="2dp"
 				app:civ_border_color="#333f4f"
 				card_view:layout_constraintStart_toStartOf="@+id/guideline"
 				android:layout_marginStart="15dp"
-				android:layout_marginTop="11dp"
 				card_view:layout_constraintTop_toBottomOf="@+id/parking_area_item_textview_title"
 				card_view:layout_constraintBottom_toBottomOf="parent"
-				android:layout_marginBottom="11dp"
 				card_view:layout_constraintVertical_bias="1.0"
-				android:layout_marginEnd="15dp" card_view:layout_constraintEnd_toStartOf="@+id/guideline2"/>
+				android:layout_marginEnd="15dp" card_view:layout_constraintEnd_toStartOf="@+id/guideline2"
+				app:layout_constraintTop_toTopOf="@+id/guideline5"
+				app:layout_constraintBottom_toTopOf="@+id/guideline5"/>
 
 
 		<de.hdodenhof.circleimageview.CircleImageView
-				android:layout_width="75dp"
-				android:layout_height="75dp"
+				android:layout_width="50dp"
+				android:layout_height="50dp"
 				app:civ_border_width="2dp"
-				app:civ_border_color="#333f4f"
+				app:civ_border_color="#FF000000"
 				app:srcCompat="@drawable/icon_camera_2"
+				android:src="@drawable/icon_camera_2"
 				android:id="@+id/parking_area_item_imageview_camera_two"
-				android:layout_marginTop="11dp"
-				card_view:layout_constraintTop_toBottomOf="@+id/parking_area_item_textview_title"
-				card_view:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="11dp"
 				card_view:layout_constraintVertical_bias="1.0" android:layout_marginStart="8dp"
 				card_view:layout_constraintStart_toStartOf="@+id/guideline2" android:layout_marginEnd="8dp"
-				card_view:layout_constraintEnd_toEndOf="parent"/>
+				card_view:layout_constraintEnd_toEndOf="parent"
+				card_view:layout_constraintTop_toTopOf="@+id/guideline5"
+				card_view:layout_constraintBottom_toTopOf="@+id/guideline5"/>
 
 		<android.support.constraint.Guideline android:layout_width="wrap_content" android:layout_height="wrap_content"
 											  android:id="@+id/guideline" card_view:layout_constraintGuide_begin="204dp"
@@ -108,5 +107,8 @@
 											  card_view:layout_constraintEnd_toEndOf="parent"
 											  android:layout_marginEnd="102dp"
 		/>
+		<android.support.constraint.Guideline android:layout_width="wrap_content" android:layout_height="wrap_content"
+											  android:id="@+id/guideline5" card_view:layout_constraintGuide_begin="74dp"
+											  android:orientation="horizontal"/>
 	</android.support.constraint.ConstraintLayout>
 </android.support.v7.widget.CardView>
