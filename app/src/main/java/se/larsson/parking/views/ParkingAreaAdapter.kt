@@ -9,6 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.model.GlideUrl
+import com.bumptech.glide.load.model.LazyHeaders
 import se.larsson.parking.network.oauth.models.ParkingLot
 import se.larsson.parking.R
 
@@ -65,31 +68,41 @@ class ParkingAreaAdapter (private var parkingLots: List<ParkingLot>, private val
                 cameraOne.visibility = View.VISIBLE
                 cameraOne.setOnClickListener {
                     listener.onItemClick(parkingLots[position], parkingLots[position].ParkingCameras!![0]!!)
+
                 }
+                Glide.with(context).load(getUrl("43063b07-c57d-396a-80ee-65a42ef4be57", "${parkingLots[position].Id}/${parkingLots[position].ParkingCameras!![0]!!.Id}")).into(cameraOne);
 
 
             } else if  (item.ParkingCameras.size > 1){
                 cameraOne.setOnClickListener {
                     listener.onItemClick(parkingLots[position], parkingLots[position].ParkingCameras!![0]!!)
+
                 }
+                Glide.with(context).load(getUrl("43063b07-c57d-396a-80ee-65a42ef4be57", "${parkingLots[position].Id}/${parkingLots[position].ParkingCameras!![0]!!.Id}")).into(cameraOne);
 
                 cameraTwo.setOnClickListener {
                     listener.onItemClick(parkingLots[position], parkingLots[position].ParkingCameras!![1]!!)
+
                 }
+                Glide.with(context).load(getUrl("43063b07-c57d-396a-80ee-65a42ef4be57", "${parkingLots[position].Id}/${parkingLots[position].ParkingCameras!![1]!!.Id}")).into(cameraTwo);
 
                 cameraOne.visibility = View.VISIBLE
                 cameraTwo.visibility = View.VISIBLE
             }
 
 
-//            Glide.with(context).load(getUrl()).into(imageView);
-//                view.setOnClickListener { listener.onItemClick(parkingLots[position])
-//
-//                }
         }
 
 
 
+    }
+
+    fun getUrl(token: String, handle: String): GlideUrl {
+        return  GlideUrl(
+            "https://api.vasttrafik.se/spp/v3/parkingImages/$handle", LazyHeaders.Builder()
+                .addHeader("Authorization", "Bearer $token")
+                .build()
+        )
     }
 
 

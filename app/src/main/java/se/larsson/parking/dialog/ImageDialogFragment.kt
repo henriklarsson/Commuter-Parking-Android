@@ -42,7 +42,7 @@ class ImageDialogFragment : DialogFragment() {
         Glide.with(context!!)
             .load(getUrl(token!!, handle!!))
             .into(imageView)
-        dialog.window.setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.window.setBackgroundDrawableResource(android.R.color.transparent)
         dialog.setTitle("Item Details")
         dialog.show()
 
