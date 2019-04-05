@@ -21,10 +21,15 @@ import se.larsson.parking.R
 import se.larsson.parking.network.oauth.models.ParkingCamera
 import se.larsson.parking.network.oauth.models.ParkingLot
 import android.view.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import se.larsson.parking.dialog.ImageDialogFragment
+
+
 
 class ParkingsActivity : AppCompatActivity(), OnItemClickListener {
     var viewModel: ParkingsViewModel? = null
+    var location: Location? = null
     override fun onItemClick(item: ParkingLot, camera: ParkingCamera) {
         Log.d(TAG, "On item clicked $item")
         showImageDialog("${item.Id}/${camera.Id}")
@@ -40,17 +45,13 @@ class ParkingsActivity : AppCompatActivity(), OnItemClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         viewModel = ViewModelProviders.of(this).get(ParkingsViewModel::class.java)
-        checkLocationPermission()
+
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        fusedLocationClient.lastLocation
-            .addOnSuccessListener { location : Location? ->
-                Log.d(TAG, "location: ${location.toString()}")
-                viewModel?.getParkingLots(userLat = location?.latitude, userLong = location?.longitude)
-            }
         viewManager = LinearLayoutManager(this)
         viewAdapter = ParkingAreaAdapter(parkingLots = viewModel!!.parkingLots.value ?: mutableListOf(), listener = this, context = this)
         parkings_recycler_view.adapter = viewAdapter
         parkings_recycler_view.layoutManager = viewManager
+        getLocation()
         // Create the observer which updates the UI.
         val nameObserver = Observer<MutableList<ParkingLot>> { parkings ->
             // Update the UI, in this case, a TextView.
@@ -58,16 +59,35 @@ class ParkingsActivity : AppCompatActivity(), OnItemClickListener {
             parkings?.let {
                 viewAdapter.setData(parkings)
             }
-
+            parkings?.size?.let {
+                if (it > 0){
+                    parkings_recycler_view.visibility = View.VISIBLE
+                    background_imageview.visibility = View.INVISIBLE
+                } else {
+                    parkings_recycler_view.visibility = View.INVISIBLE
+                    background_imageview.visibility = View.VISIBLE
+                }
+            }
         }
-        viewModel!!.parkingLots.observe(this, nameObserver)
-
+        viewModel?.parkingLots?.observe(this, nameObserver)
         fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-            viewModel!!.getParkingLots()
-            fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-            viewAdapter.notifyDataSetChanged()
+            viewModel?.clearParking()
+            getLocation()
+        }
+    }
+
+    private fun getLocation(){
+        checkLocationPermission()
+        this.fusedLocationClient.lastLocation.addOnSuccessListener { location : Location? ->
+                Log.d(TAG, "location: ${location.toString()}")
+                this.location = location
+                getParkingLots()
+            }
+    }
+
+    private fun getParkingLots(){
+        GlobalScope.launch {// activity should create scope
+            viewModel?.getParkingLots(userLong = location?.longitude, userLat = location?.latitude)
         }
     }
 
@@ -105,6 +125,22 @@ class ParkingsActivity : AppCompatActivity(), OnItemClickListener {
                 // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
                 // app-defined int constant. The callback method gets the
                 // result of the request.
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION -> {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    getLocation()
+
+                } else {
+                    getParkingLots()
+                }
+                return
             }
         }
     }

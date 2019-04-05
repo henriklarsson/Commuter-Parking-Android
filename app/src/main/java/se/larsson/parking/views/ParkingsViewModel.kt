@@ -14,6 +14,7 @@ class ParkingsViewModel: ViewModel() {
     private val TAG = ParkingsActivity::class.java.simpleName
     var token: AccessToken? = null
     val parkingLots = MutableLiveData<MutableList<ParkingLot>>()
+
     private val searchDistance: Int = 15 // km
 
     private suspend fun getAccessToken(): AccessToken?{
@@ -31,29 +32,28 @@ class ParkingsViewModel: ViewModel() {
         }
     }
 
-    fun getParkingLots(userLat: Double? = null, userLong: Double? = null, dist: Int? = searchDistance, max: Int? = null){
-        GlobalScope.launch {// activity should create scope
+    fun clearParking(){
+        parkingLots.postValue(mutableListOf())
+    }
 
-            val parkingService = HttpServices().getParkingService()
+    suspend fun getParkingLots(userLat: Double? = null, userLong: Double? = null, dist: Int? = searchDistance, max: Int? = null){
+        val parkingService = HttpServices().getParkingService()
 
-            val accessToken = getAccessToken()
-            accessToken?.access_token?.let {
-                val parkingAreas =
-                    parkingService.getParkings(authorization = "Bearer $it",
-                        format = "json", lat = userLat, lon = userLong, dist = dist, max = max).await()
-                parkingAreas.body()!!.forEach {
-                    Log.d(TAG, it.toString())
-                }
-//                Log.d(TAG, "Timestamp: ${await.timestamp}")
-                Log.d(TAG, "Timestamp2: ${System.currentTimeMillis()}")
-                val reciviedParkingLots = mutableListOf<ParkingLot>()
-                val body = parkingAreas.body()?.forEach { reciviedParkingLots.addAll(it.ParkingLots)  }
-                // sort list by distance
-                reciviedParkingLots.sortBy { calculateDistance(it, userLat!!, userLong!!) }
-                parkingLots.postValue(reciviedParkingLots)
+        val accessToken = getAccessToken()
+        accessToken?.access_token?.let {
+            val parkingAreas =
+                parkingService.getParkings(authorization = "Bearer $it",
+                    format = "json", lat = userLat, lon = userLong, dist = dist, max = max).await()
+            parkingAreas.body()!!.forEach {
+                Log.d(TAG, it.toString())
             }
-
-
+//                Log.d(TAG, "Timestamp: ${await.timestamp}")
+            Log.d(TAG, "Timestamp2: ${System.currentTimeMillis()}")
+            val reciviedParkingLots = mutableListOf<ParkingLot>()
+            val body = parkingAreas.body()?.forEach { reciviedParkingLots.addAll(it.ParkingLots)  }
+            // sort list by distance
+            reciviedParkingLots.sortBy { calculateDistance(it, userLat!!, userLong!!) }
+            parkingLots.postValue(reciviedParkingLots)
         }
     }
 

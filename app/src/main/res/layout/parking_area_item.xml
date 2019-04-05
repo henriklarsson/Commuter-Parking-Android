@@ -6,8 +6,8 @@
 									android:layout_width="match_parent"
 									android:layout_height="wrap_content"
 									android:layout_margin="8dp"
-									android:translationZ="24dp"
-									card_view:cardCornerRadius="16dp">
+									android:translationZ="8dp"
+									card_view:cardCornerRadius="8dp">
 	<android.support.constraint.ConstraintLayout android:layout_width="match_parent"
 												 android:layout_height="124dp">
 
