@@ -23,15 +23,11 @@ import se.larsson.parking.network.oauth.models.ParkingLot
 import android.view.*
 import se.larsson.parking.dialog.ImageDialogFragment
 
-
-
-
-
 class ParkingsActivity : AppCompatActivity(), OnItemClickListener {
     var viewModel: ParkingsViewModel? = null
     override fun onItemClick(item: ParkingLot, camera: ParkingCamera) {
-        Log.d(TAG, "On item clicked ${item.toString()}")
-        showImage("${item.Id}/${camera.Id}")
+        Log.d(TAG, "On item clicked $item")
+        showImageDialog("${item.Id}/${camera.Id}")
     }
 
     private val TAG = ParkingsActivity::class.java.simpleName
@@ -51,8 +47,6 @@ class ParkingsActivity : AppCompatActivity(), OnItemClickListener {
                 Log.d(TAG, "location: ${location.toString()}")
                 viewModel?.getParkingLots(userLat = location?.latitude, userLong = location?.longitude)
             }
-
-
         viewManager = LinearLayoutManager(this)
         viewAdapter = ParkingAreaAdapter(parkingLots = viewModel!!.parkingLots.value ?: mutableListOf(), listener = this, context = this)
         parkings_recycler_view.adapter = viewAdapter
@@ -73,10 +67,7 @@ class ParkingsActivity : AppCompatActivity(), OnItemClickListener {
                 .setAction("Action", null).show()
             viewModel!!.getParkingLots()
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-
             viewAdapter.notifyDataSetChanged()
-
-
         }
     }
 
@@ -86,29 +77,16 @@ class ParkingsActivity : AppCompatActivity(), OnItemClickListener {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-    fun showImage(handle: String) {
+    private fun showImageDialog(handle: String) {
         val manager = supportFragmentManager
         val args = Bundle()
         val alertDialogFragment =  ImageDialogFragment()
-        viewModel?.token?.let{
+        viewModel?.token?.access_token?.let{
             args.putString(ImageDialogFragment.TOKEN, it)
         }
         args.putString(ImageDialogFragment.CAMERA_NUMBER, handle)
-
         alertDialogFragment.arguments = args
         alertDialogFragment.show(manager, "ImageDialogFragment")
-
-
     }
 
     private fun checkLocationPermission(){
