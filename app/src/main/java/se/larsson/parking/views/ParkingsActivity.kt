@@ -1,6 +1,7 @@
 package se.larsson.parking.views
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.pm.PackageManager
@@ -24,12 +25,20 @@ import android.view.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import se.larsson.parking.dialog.ImageDialogFragment
+import android.graphics.drawable.AnimationDrawable
+
+
+
+
+
+
 
 
 
 class ParkingsActivity : AppCompatActivity(), OnItemClickListener {
     var viewModel: ParkingsViewModel? = null
     var location: Location? = null
+
     override fun onItemClick(item: ParkingLot, camera: ParkingCamera) {
         Log.d(TAG, "On item clicked $item")
         showImageDialog("${item.Id}/${camera.Id}")
@@ -37,7 +46,7 @@ class ParkingsActivity : AppCompatActivity(), OnItemClickListener {
 
     private val TAG = ParkingsActivity::class.java.simpleName
     private val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: Int = 2001
-//    private lateinit var recyclerView: RecyclerView
+    private var fabAnimation: AnimationDrawable? = null
     private lateinit var viewAdapter: ParkingAreaAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -45,7 +54,7 @@ class ParkingsActivity : AppCompatActivity(), OnItemClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         viewModel = ViewModelProviders.of(this).get(ParkingsViewModel::class.java)
-
+        val animation = resources.getDrawable(android.R.drawable.ic_popup_sync, null) as AnimationDrawable
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         viewManager = LinearLayoutManager(this)
         viewAdapter = ParkingAreaAdapter(parkingLots = viewModel!!.parkingLots.value ?: mutableListOf(), listener = this, context = this)
@@ -69,9 +78,14 @@ class ParkingsActivity : AppCompatActivity(), OnItemClickListener {
                 }
             }
         }
+
+
+//        fab.setBackgroundResource(android.R.drawable.ic_popup_sync)
+        fabAnimation = fab.drawable as AnimationDrawable
         viewModel?.parkingLots?.observe(this, nameObserver)
         fab.setOnClickListener { view ->
             viewModel?.clearParking()
+            fabAnimation?.start()
             getLocation()
         }
     }
@@ -134,7 +148,7 @@ class ParkingsActivity : AppCompatActivity(), OnItemClickListener {
         when (requestCode) {
             PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION -> {
                 // If request is cancelled, the result arrays are empty.
-                if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     getLocation()
 
                 } else {
