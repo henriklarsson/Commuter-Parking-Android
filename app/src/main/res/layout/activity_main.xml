@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
-            app:srcCompat="@android:drawable/arrow_down_float"/>
+            app:srcCompat="@android:drawable/spinner_background"/>
     <android.support.v7.widget.RecyclerView
             android:id="@+id/parkings_recycler_view"
             android:layout_width="match_parent"
@@ -25,6 +25,6 @@
             android:id="@+id/background_imageview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorPrimary"/>
+            android:background="@drawable/parking_empty_view"/>
 
 </android.support.design.widget.CoordinatorLayout>
