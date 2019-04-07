@@ -12,6 +12,7 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.load.model.LazyHeaders
 import se.larsson.parking.R
@@ -41,6 +42,8 @@ class ImageDialogFragment : DialogFragment() {
         imageView.visibility = View.VISIBLE
         Glide.with(context!!)
             .load(getUrl(token!!, handle!!))
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .skipMemoryCache(true)
             .into(imageView)
         dialog.window.setBackgroundDrawableResource(android.R.color.transparent)
         dialog.setTitle("Item Details")
