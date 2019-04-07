@@ -19,8 +19,8 @@ import com.google.android.gms.location.LocationServices
 
 import kotlinx.android.synthetic.main.activity_main.*
 import se.larsson.parking.R
-import se.larsson.parking.network.oauth.models.ParkingCamera
-import se.larsson.parking.network.oauth.models.ParkingLot
+import se.larsson.parking.network.models.ParkingCamera
+import se.larsson.parking.network.models.ParkingLot
 import android.view.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

@@ -9,7 +9,7 @@
 * https://github.com/swagger-api/swagger-codegen.git
 * Do not edit the class manually.
 */
-package se.larsson.parking.network.oauth.models
+package se.larsson.parking.network.models
 
 /**
  * 

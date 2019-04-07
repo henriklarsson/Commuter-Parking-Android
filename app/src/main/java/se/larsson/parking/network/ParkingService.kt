@@ -1,9 +1,9 @@
-package se.larsson.parking.network.oauth
+package se.larsson.parking.network
 
 import kotlinx.coroutines.Deferred
 import retrofit2.Response
 import retrofit2.http.*
-import se.larsson.parking.network.oauth.models.ParkingArea
+import se.larsson.parking.network.models.ParkingArea
 
 
 interface ParkingService {

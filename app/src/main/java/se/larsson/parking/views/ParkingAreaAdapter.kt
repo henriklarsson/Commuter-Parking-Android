@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import se.larsson.parking.network.oauth.models.ParkingLot
+import se.larsson.parking.network.models.ParkingLot
 import se.larsson.parking.R
 
 class ParkingAreaAdapter (private var parkingLots: List<ParkingLot>, private val listener: OnItemClickListener, private val context: Context) :

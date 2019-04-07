@@ -1,4 +1,4 @@
-package se.larsson.parking.network.oauth
+package se.larsson.parking.network
 
 class AccessToken(val scope: String,
                        val token_type: String,

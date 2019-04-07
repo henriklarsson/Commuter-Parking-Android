@@ -6,9 +6,9 @@ import android.location.Location
 import android.util.Log
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import se.larsson.parking.network.oauth.AccessToken
-import se.larsson.parking.network.oauth.HttpServices
-import se.larsson.parking.network.oauth.models.ParkingLot
+import se.larsson.parking.network.AccessToken
+import se.larsson.parking.network.HttpServices
+import se.larsson.parking.network.models.ParkingLot
 
 class ParkingsViewModel: ViewModel() {
     private val TAG = ParkingsActivity::class.java.simpleName

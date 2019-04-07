@@ -9,17 +9,19 @@
 * https://github.com/swagger-api/swagger-codegen.git
 * Do not edit the class manually.
 */
-package se.larsson.parking.network.oauth.models
+package se.larsson.parking.network.models
 
 
 /**
  * 
  * @param Name 
- * @param Id 
+ * @param Municipality 
+ * @param Gid 
  */
-data class Destination (
+data class StopArea (
     val Name: kotlin.String,
-    val Id: kotlin.String
+    val Municipality: kotlin.String,
+    val Gid: kotlin.Long
 ) {
 
 }
