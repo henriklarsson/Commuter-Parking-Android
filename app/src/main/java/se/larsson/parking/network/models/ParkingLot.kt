@@ -35,7 +35,5 @@ data class ParkingLot (
     val ParkingCameras: kotlin.Array<ParkingCamera>? = null,
     /* Number of free spaces. Only available if ParkingType Name is SMARTCARPARK */
     val FreeSpaces: kotlin.Int? = null
-) {
-
-}
+)
 

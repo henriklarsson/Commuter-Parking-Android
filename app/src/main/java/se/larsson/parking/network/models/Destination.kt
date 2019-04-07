@@ -20,7 +20,5 @@ package se.larsson.parking.network.models
 data class Destination (
     val Name: kotlin.String,
     val Id: kotlin.String
-) {
-
-}
+)
 

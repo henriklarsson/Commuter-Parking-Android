@@ -32,7 +32,5 @@ data class Departure (
     val ArrivalTime: java.time.LocalDateTime,
     val Type: kotlin.String? = null,
     val Destination: Destination? = null
-) {
-
-}
+)
 

@@ -26,14 +26,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import se.larsson.parking.dialog.ImageDialogFragment
 import android.graphics.drawable.AnimationDrawable
-
-
-
-
-
-
-
-
+import se.larsson.parking.network.models.ResponseResult
 
 class ParkingsActivity : AppCompatActivity(), OnItemClickListener {
     var viewModel: ParkingsViewModel? = null
@@ -79,7 +72,7 @@ class ParkingsActivity : AppCompatActivity(), OnItemClickListener {
             }
         }
 
-        val responseObserver = Observer<Int> { code ->
+        val responseObserver = Observer<ResponseResult> { code ->
             fabAnimation?.stop()
             Snackbar.make(coordinatorLayout,"Response code: $code", Snackbar.LENGTH_SHORT ).show()
 

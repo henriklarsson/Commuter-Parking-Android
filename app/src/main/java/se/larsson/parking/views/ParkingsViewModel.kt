@@ -4,17 +4,16 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.location.Location
 import android.util.Log
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import se.larsson.parking.network.AccessToken
 import se.larsson.parking.network.HttpServices
 import se.larsson.parking.network.models.ParkingLot
+import se.larsson.parking.network.models.ResponseResult
 
 class ParkingsViewModel: ViewModel() {
     private val TAG = ParkingsActivity::class.java.simpleName
     var token: AccessToken? = null
     val parkingLots = MutableLiveData<MutableList<ParkingLot>>()
-    val responseCode = MutableLiveData<Int>()
+    val responseCode = MutableLiveData<ResponseResult>()
 
     private val searchDistance: Int = 15 // km
 
@@ -42,20 +41,26 @@ class ParkingsViewModel: ViewModel() {
 
         val accessToken = getAccessToken()
         accessToken?.access_token?.let {
-            val parkingAreas =
+            val parkingsResponse =
                 parkingService.getParkings(authorization = "Bearer $it",
                     format = "json", lat = userLat, lon = userLong, dist = dist, max = max).await()
-            parkingAreas.body()!!.forEach {
+            parkingsResponse.body()!!.forEach {
                 Log.d(TAG, it.toString())
             }
-//                Log.d(TAG, "Timestamp: ${await.timestamp}")
-            Log.d(TAG, "Timestamp2: ${System.currentTimeMillis()}")
-            val reciviedParkingLots = mutableListOf<ParkingLot>()
-            parkingAreas.body()?.forEach { reciviedParkingLots.addAll(it.ParkingLots)  }
-            // sort list by distance
-            reciviedParkingLots.sortBy { calculateDistance(it, userLat!!, userLong!!) }
-            parkingLots.postValue(reciviedParkingLots)
-            responseCode.postValue(parkingAreas.code())
+            if (parkingsResponse.isSuccessful){
+                Log.d(TAG, "parking response success ${parkingsResponse.code()}")
+                val reciviedParkingLots = mutableListOf<ParkingLot>()
+                parkingsResponse.body()?.forEach { reciviedParkingLots.addAll(it.ParkingLots)  }
+                // sort list by distance
+                reciviedParkingLots.sortBy { calculateDistance(it, userLat!!, userLong!!) }
+                parkingLots.postValue(reciviedParkingLots)
+                responseCode.postValue(ResponseResult.Success(parkingsResponse.code()))
+            } else {
+                Log.d(TAG, "parking response failed ${parkingsResponse.code()}")
+                clearParking()
+                responseCode.postValue(ResponseResult.Error(parkingsResponse.code(), parkingsResponse.message()))
+            }
+
         }
     }
 
