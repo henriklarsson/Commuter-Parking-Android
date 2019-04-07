@@ -2,9 +2,7 @@ package se.larsson.parking.dialog
 
 import android.app.Dialog
 import android.content.Context
-import android.net.Uri
 import android.os.Bundle
-import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.DialogFragment
 
 import android.view.LayoutInflater
@@ -20,19 +18,14 @@ import se.larsson.parking.R
 
 class ImageDialogFragment : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-
-        val dialog = Dialog(context)
+        val dialog = Dialog(context!!)
         val token = arguments?.getString(ImageDialogFragment.TOKEN)
         val handle = arguments?.getString(ImageDialogFragment.CAMERA_NUMBER)
-
         dialog.window?.setFlags(
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN
         )
-
-        val layoutInflater = activity!!
-            .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-
+        val layoutInflater = activity!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val view = layoutInflater.inflate(R.layout.image_dialog, null)
         dialog.setContentView(view)
         val imageView = view.findViewById(R.id.imageView) as ImageView
@@ -45,14 +38,14 @@ class ImageDialogFragment : DialogFragment() {
             .diskCacheStrategy(DiskCacheStrategy.NONE)
             .skipMemoryCache(true)
             .into(imageView)
-        dialog.window.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
         dialog.setTitle("Item Details")
         dialog.show()
 
         return dialog
     }
 
-    fun getUrl(token: String, handle: String): GlideUrl {
+    private fun getUrl(token: String, handle: String): GlideUrl {
         return  GlideUrl(
             "https://api.vasttrafik.se/spp/v3/parkingImages/$handle", LazyHeaders.Builder()
                 .addHeader("Authorization", "Bearer $token")

@@ -22,7 +22,5 @@ data class StopArea (
     val Name: kotlin.String,
     val Municipality: kotlin.String,
     val Gid: kotlin.Long
-) {
-
-}
+)
 

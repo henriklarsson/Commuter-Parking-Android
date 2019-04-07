@@ -18,7 +18,5 @@ package se.larsson.parking.network.models
  */
 data class ParkingCamera (
     val Id: kotlin.Long
-) {
-
-}
+)
 

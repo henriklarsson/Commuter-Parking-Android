@@ -13,7 +13,6 @@ class HttpServices {
             .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-
         return retrofit.create(ParkingService::class.java)
     }
     fun getParkingService(): ParkingService {
@@ -23,10 +22,7 @@ class HttpServices {
             .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-
         return retrofit.create(ParkingService::class.java)
     }
-
     private fun getOkHttpClient() = OkHttpClient()
-
 }

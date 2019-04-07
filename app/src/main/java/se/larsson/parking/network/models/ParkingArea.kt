@@ -26,7 +26,4 @@ data class ParkingArea (
     val ParkingLots: kotlin.Array<ParkingLot>,
     /* Departures from the parking area, sorted by minutes until departure */
     val Departures: kotlin.Array<Departure>? = null
-) {
-
-}
-
+)

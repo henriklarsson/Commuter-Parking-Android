@@ -12,7 +12,7 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme" tools:ignore="GoogleAppIndexingWarning">
         <activity
-                android:name=".views.ParkingsActivity"
+                android:name=".views.ParkingSpacesActivity"
                 android:label="@string/app_name"
                 android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>

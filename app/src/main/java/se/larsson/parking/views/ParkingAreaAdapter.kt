@@ -14,32 +14,28 @@ class ParkingAreaAdapter (private var parkingLots: List<ParkingLot>, private val
     RecyclerView.Adapter<ParkingAreaAdapter.ParkingAreaViewHolder>() {
     class ParkingAreaViewHolder(val view: View) : RecyclerView.ViewHolder(view)
     // Create new views (invoked by the layout manager)
-    override fun onCreateViewHolder(parent: ViewGroup,
-                                    viewType: Int): ParkingAreaAdapter.ParkingAreaViewHolder {
-        // create a new view
-        val cardView = LayoutInflater.from(parent.context).inflate(R.layout.parking_area_item, parent, false) as CardView
-        // set the view's size, margins, paddings and layout parameters
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ParkingAreaAdapter.ParkingAreaViewHolder {
+        val cardView = LayoutInflater.from(parent.context).inflate(R.layout.parking_area_item, parent,
+            false) as CardView
         return ParkingAreaViewHolder(cardView)
     }
     override fun onBindViewHolder(holder: ParkingAreaViewHolder, position: Int) {
-        // - get element from your dataset at this position
-        // - replace the contents of the view with that element
         val view = holder.view
         val item = parkingLots[position]
         val cameraOne: ImageView = view.findViewById(R.id.parking_area_item_imageview_camera_one)
         val cameraTwo: ImageView = view.findViewById(R.id.parking_area_item_imageview_camera_two)
         val titleTextView: TextView = view.findViewById(R.id.parking_area_item_textview_title)
-        val numberOfParkingsTextView: TextView = view.findViewById(R.id.parking_area_item_textview_number_of_parkings)
-        val freeParkingsTextView: TextView = view.findViewById(R.id.parking_area_item_textview_free_parkings)
+        val numberOfParkingSpacesTextView: TextView =
+            view.findViewById(R.id.parking_area_item_textview_number_of_parkings)
+        val freeParkingSpacesTextView: TextView = view.findViewById(R.id.parking_area_item_textview_free_parkings)
         titleTextView.text = item.Name
-        numberOfParkingsTextView.text = "Total spaces ${item.TotalCapacity}"
+        numberOfParkingSpacesTextView.text = "Total spaces ${item.TotalCapacity}"
         if (item.FreeSpaces == null){
-            freeParkingsTextView.visibility = View.GONE
+            freeParkingSpacesTextView.visibility = View.GONE
         } else {
-            freeParkingsTextView.text = "Free spaces ${item.FreeSpaces}"
-            freeParkingsTextView.visibility = View.VISIBLE
+            freeParkingSpacesTextView.text = "Free spaces ${item.FreeSpaces}"
+            freeParkingSpacesTextView.visibility = View.VISIBLE
         }
-
         cameraOne.visibility = View.GONE
         cameraTwo.visibility = View.GONE
         if (item.ParkingCameras?.isNotEmpty() == true){

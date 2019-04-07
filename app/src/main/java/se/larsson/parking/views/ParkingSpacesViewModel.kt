@@ -9,8 +9,8 @@ import se.larsson.parking.network.HttpServices
 import se.larsson.parking.network.models.ParkingLot
 import se.larsson.parking.network.models.ResponseResult
 
-class ParkingsViewModel: ViewModel() {
-    private val TAG = ParkingsActivity::class.java.simpleName
+class ParkingSpacesViewModel: ViewModel() {
+    private val TAG = ParkingSpacesActivity::class.java.simpleName
     var token: AccessToken? = null
     val parkingLots = MutableLiveData<MutableList<ParkingLot>>()
     val responseCode = MutableLiveData<ResponseResult>()
@@ -26,9 +26,13 @@ class ParkingsViewModel: ViewModel() {
             val oAuthService = HttpServices().getOAuthService()
             val accessToken = oAuthService.getAccessToken()
             val tokenResponse = accessToken.await()
-            token = tokenResponse.body()
-            Log.d(TAG, tokenResponse.body()?.access_token)
-            return token
+            return if (tokenResponse.isSuccessful){
+                token = tokenResponse.body()
+                token
+            } else {
+                responseCode.postValue(ResponseResult.Error(tokenResponse.code(), tokenResponse.message()))
+                null
+            }
         }
     }
 
@@ -38,27 +42,25 @@ class ParkingsViewModel: ViewModel() {
 
     suspend fun getParkingLots(userLat: Double? = null, userLong: Double? = null, dist: Int? = searchDistance, max: Int? = null){
         val parkingService = HttpServices().getParkingService()
-
         val accessToken = getAccessToken()
         accessToken?.access_token?.let {
-            val parkingsResponse =
-                parkingService.getParkings(authorization = "Bearer $it",
+            val parkingSpacesResponse = parkingService.getParkings(authorization = "Bearer $it",
                     format = "json", lat = userLat, lon = userLong, dist = dist, max = max).await()
-            parkingsResponse.body()!!.forEach {
-                Log.d(TAG, it.toString())
+            parkingSpacesResponse.body()?.forEach { parkingAreas ->
+                Log.d(TAG, parkingAreas.toString())
             }
-            if (parkingsResponse.isSuccessful){
-                Log.d(TAG, "parking response success ${parkingsResponse.code()}")
-                val reciviedParkingLots = mutableListOf<ParkingLot>()
-                parkingsResponse.body()?.forEach { reciviedParkingLots.addAll(it.ParkingLots)  }
+            if (parkingSpacesResponse.isSuccessful){
+                Log.d(TAG, "parking response success ${parkingSpacesResponse.code()}")
+                val receivedParkingLots = mutableListOf<ParkingLot>()
+                parkingSpacesResponse.body()?.forEach { receivedParkingLots.addAll(it.ParkingLots)  }
                 // sort list by distance
-                reciviedParkingLots.sortBy { calculateDistance(it, userLat!!, userLong!!) }
-                parkingLots.postValue(reciviedParkingLots)
-                responseCode.postValue(ResponseResult.Success(parkingsResponse.code()))
+                receivedParkingLots.sortBy { calculateDistance(it, userLat!!, userLong!!) }
+                parkingLots.postValue(receivedParkingLots)
+                responseCode.postValue(ResponseResult.Success(parkingSpacesResponse.code()))
             } else {
-                Log.d(TAG, "parking response failed ${parkingsResponse.code()}")
+                Log.d(TAG, "parking response failed ${parkingSpacesResponse.code()}")
                 clearParking()
-                responseCode.postValue(ResponseResult.Error(parkingsResponse.code(), parkingsResponse.message()))
+                responseCode.postValue(ResponseResult.Error(parkingSpacesResponse.code(), parkingSpacesResponse.message()))
             }
 
         }

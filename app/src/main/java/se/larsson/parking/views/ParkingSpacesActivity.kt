@@ -27,8 +27,8 @@ import se.larsson.parking.dialog.ImageDialogFragment
 import android.graphics.drawable.AnimationDrawable
 import se.larsson.parking.network.models.ResponseResult
 
-class ParkingsActivity : AppCompatActivity(), OnItemClickListener {
-    var viewModel: ParkingsViewModel? = null
+class ParkingSpacesActivity : AppCompatActivity(), OnItemClickListener {
+    var viewModel: ParkingSpacesViewModel? = null
     var location: Location? = null
 
     override fun onItemClick(item: ParkingLot, camera: ParkingCamera) {
@@ -36,8 +36,7 @@ class ParkingsActivity : AppCompatActivity(), OnItemClickListener {
         showImageDialog("${item.Id}/${camera.Id}")
     }
 
-    private val TAG = ParkingsActivity::class.java.simpleName
-    private val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: Int = 2001
+    private val TAG = ParkingSpacesActivity::class.java.simpleName
     private var fabAnimation: AnimationDrawable? = null
     private lateinit var viewAdapter: ParkingAreaAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
@@ -45,22 +44,22 @@ class ParkingsActivity : AppCompatActivity(), OnItemClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        viewModel = ViewModelProviders.of(this).get(ParkingsViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(ParkingSpacesViewModel::class.java)
         val animation = resources.getDrawable(android.R.drawable.ic_popup_sync, null) as AnimationDrawable
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         viewManager = LinearLayoutManager(this)
-        viewAdapter = ParkingAreaAdapter(parkingLots = viewModel!!.parkingLots.value ?: mutableListOf(), listener = this, context = this)
+        viewAdapter = ParkingAreaAdapter(parkingLots = viewModel?.parkingLots?.value ?: mutableListOf(), listener = this, context = this)
         parkings_recycler_view.adapter = viewAdapter
         parkings_recycler_view.layoutManager = viewManager
         getLocation()
         // Create the observer which updates the UI.
-        val nameObserver = Observer<MutableList<ParkingLot>> { parkings ->
+        val parkingSpacesObserver = Observer<MutableList<ParkingLot>> { parkingSpaces ->
             // Update the UI, in this case, a TextView.
-            Log.d(TAG, "Parkinglots found: ${parkings?.size}")
-            parkings?.let {
-                viewAdapter.setData(parkings)
+            Log.d(TAG, "Parking spaces found: ${parkingSpaces?.size}")
+            parkingSpaces?.let {
+                viewAdapter.setData(parkingSpaces)
             }
-            parkings?.size?.let {
+            parkingSpaces?.size?.let {
                 if (it > 0){
                     parkings_recycler_view.visibility = View.VISIBLE
                     background_imageview.visibility = View.INVISIBLE
@@ -78,15 +77,11 @@ class ParkingsActivity : AppCompatActivity(), OnItemClickListener {
                     Snackbar.make(coordinatorLayout,"Response code: ${responseResult.responseCode} error message: ${responseResult.errorMessage}", Snackbar.LENGTH_SHORT ).show()
                 }
             }
-
-
         }
-
-//        fab.setBackgroundResource(android.R.drawable.ic_popup_sync)
         viewModel?.responseCode?.observe(this, responseObserver)
         fabAnimation = fab.drawable as AnimationDrawable
-        viewModel?.parkingLots?.observe(this, nameObserver)
-        fab.setOnClickListener { view ->
+        viewModel?.parkingLots?.observe(this, parkingSpacesObserver)
+        fab.setOnClickListener {
             viewModel?.clearParking()
             fabAnimation?.start()
             getLocation()
@@ -129,20 +124,8 @@ class ParkingsActivity : AppCompatActivity(), OnItemClickListener {
     private fun checkLocationPermission(){
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
             != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.ACCESS_FINE_LOCATION)) {
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-            } else {
-                // No explanation needed, we can request the permission.
-                ActivityCompat.requestPermissions(this,
-                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION)
-
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
-            }
+            ActivityCompat.requestPermissions(this,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION)
         }
     }
 
@@ -160,5 +143,9 @@ class ParkingsActivity : AppCompatActivity(), OnItemClickListener {
                 return
             }
         }
+    }
+
+    companion object {
+        private const val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: Int = 2001
     }
 }
