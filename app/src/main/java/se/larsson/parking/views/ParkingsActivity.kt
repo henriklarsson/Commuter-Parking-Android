@@ -1,7 +1,6 @@
 package se.larsson.parking.views
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.pm.PackageManager
@@ -72,9 +71,14 @@ class ParkingsActivity : AppCompatActivity(), OnItemClickListener {
             }
         }
 
-        val responseObserver = Observer<ResponseResult> { code ->
+        val responseObserver = Observer<ResponseResult> { responseResult ->
             fabAnimation?.stop()
-            Snackbar.make(coordinatorLayout,"Response code: $code", Snackbar.LENGTH_SHORT ).show()
+            when (responseResult){
+                is ResponseResult.Error -> {
+                    Snackbar.make(coordinatorLayout,"Response code: ${responseResult.responseCode} error message: ${responseResult.errorMessage}", Snackbar.LENGTH_SHORT ).show()
+                }
+            }
+
 
         }
 
