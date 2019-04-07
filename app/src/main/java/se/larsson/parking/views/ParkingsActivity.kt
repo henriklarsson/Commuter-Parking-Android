@@ -79,8 +79,14 @@ class ParkingsActivity : AppCompatActivity(), OnItemClickListener {
             }
         }
 
+        val responseObserver = Observer<Int> { code ->
+            fabAnimation?.stop()
+            Snackbar.make(coordinatorLayout,"Response code: $code", Snackbar.LENGTH_SHORT ).show()
+
+        }
 
 //        fab.setBackgroundResource(android.R.drawable.ic_popup_sync)
+        viewModel?.responseCode?.observe(this, responseObserver)
         fabAnimation = fab.drawable as AnimationDrawable
         viewModel?.parkingLots?.observe(this, nameObserver)
         fab.setOnClickListener { view ->

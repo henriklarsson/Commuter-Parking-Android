@@ -14,6 +14,7 @@ class ParkingsViewModel: ViewModel() {
     private val TAG = ParkingsActivity::class.java.simpleName
     var token: AccessToken? = null
     val parkingLots = MutableLiveData<MutableList<ParkingLot>>()
+    val responseCode = MutableLiveData<Int>()
 
     private val searchDistance: Int = 15 // km
 
@@ -50,14 +51,15 @@ class ParkingsViewModel: ViewModel() {
 //                Log.d(TAG, "Timestamp: ${await.timestamp}")
             Log.d(TAG, "Timestamp2: ${System.currentTimeMillis()}")
             val reciviedParkingLots = mutableListOf<ParkingLot>()
-            val body = parkingAreas.body()?.forEach { reciviedParkingLots.addAll(it.ParkingLots)  }
+            parkingAreas.body()?.forEach { reciviedParkingLots.addAll(it.ParkingLots)  }
             // sort list by distance
             reciviedParkingLots.sortBy { calculateDistance(it, userLat!!, userLong!!) }
             parkingLots.postValue(reciviedParkingLots)
+            responseCode.postValue(parkingAreas.code())
         }
     }
 
-    fun calculateDistance(parkingLot: ParkingLot, userLat: Double, userLong: Double): Float {
+    private fun calculateDistance(parkingLot: ParkingLot, userLat: Double, userLong: Double): Float {
         val userLocation = Location("")
         userLocation.latitude = userLat
         userLocation.longitude = userLong
@@ -65,6 +67,5 @@ class ParkingsViewModel: ViewModel() {
         parkingLotLocation.latitude = parkingLot.Lat
         parkingLotLocation.longitude = parkingLot.Lon
         return userLocation.distanceTo(parkingLotLocation)
-
     }
 }
