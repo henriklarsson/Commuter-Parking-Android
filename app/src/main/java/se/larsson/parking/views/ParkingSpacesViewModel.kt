@@ -17,7 +17,7 @@ class ParkingSpacesViewModel: ViewModel() {
 
     private val searchDistance: Int = 15 // km
 
-    private suspend fun getAccessToken(): AccessToken?{
+    suspend fun getAccessToken(): AccessToken?{
         if (token?.isValid() == true){
             Log.d(TAG, "returning valid token")
             return token
@@ -40,12 +40,16 @@ class ParkingSpacesViewModel: ViewModel() {
         parkingLots.postValue(mutableListOf())
     }
 
-    suspend fun getParkingLots(userLat: Double? = null, userLong: Double? = null, dist: Int? = searchDistance, max: Int? = null){
+    suspend fun getParkingLots(userLat: Double? = null, userLong: Double? = null, distance: Int? = searchDistance, max: Int? = null){
         val parkingService = HttpServices().getParkingService()
         val accessToken = getAccessToken()
         accessToken?.access_token?.let {
+            var distance: Int? = null
+            if (userLat != null && userLong != null){
+                distance = searchDistance
+            }
             val parkingSpacesResponse = parkingService.getParkings(authorization = "Bearer $it",
-                    format = "json", lat = userLat, lon = userLong, dist = dist, max = max).await()
+                    format = "json", lat = userLat, lon = userLong, dist = distance, max = max).await()
             parkingSpacesResponse.body()?.forEach { parkingAreas ->
                 Log.d(TAG, parkingAreas.toString())
             }
