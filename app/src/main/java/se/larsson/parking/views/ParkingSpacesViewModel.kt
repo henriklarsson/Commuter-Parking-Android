@@ -58,7 +58,10 @@ class ParkingSpacesViewModel: ViewModel() {
                 val receivedParkingLots = mutableListOf<ParkingLot>()
                 parkingSpacesResponse.body()?.forEach { receivedParkingLots.addAll(it.ParkingLots)  }
                 // sort list by distance
-                receivedParkingLots.sortBy { calculateDistance(it, userLat!!, userLong!!) }
+                if (userLat != null && userLong != null){
+                    receivedParkingLots.sortBy { calculateDistance(it, userLat, userLong) }
+                }
+
                 parkingLots.postValue(receivedParkingLots)
                 responseCode.postValue(ResponseResult.Success(parkingSpacesResponse.code()))
             } else {
