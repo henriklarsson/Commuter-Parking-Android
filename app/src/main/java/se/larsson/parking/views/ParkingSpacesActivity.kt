@@ -45,6 +45,7 @@ class ParkingSpacesActivity : AppCompatActivity(), OnItemClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         viewModel = ViewModelProviders.of(this).get(ParkingSpacesViewModel::class.java)
+        val animation = resources.getDrawable(android.R.drawable.ic_popup_sync, null) as AnimationDrawable
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         viewManager = LinearLayoutManager(this)
         viewAdapter = ParkingAreaAdapter(parkingLots = viewModel?.parkingLots?.value ?: mutableListOf(), listener = this, context = this)
@@ -112,15 +113,12 @@ class ParkingSpacesActivity : AppCompatActivity(), OnItemClickListener {
         val manager = supportFragmentManager
         val args = Bundle()
         val alertDialogFragment =  ImageDialogFragment()
-        GlobalScope.launch {// activity should create scope
-            viewModel?.getAccessToken()?.access_token?.let{
-                args.putString(ImageDialogFragment.TOKEN, it)
-            }
-            args.putString(ImageDialogFragment.CAMERA_NUMBER, handle)
-            alertDialogFragment.arguments = args
-            alertDialogFragment.show(manager, "ImageDialogFragment")
+        viewModel?.token?.access_token?.let{
+            args.putString(ImageDialogFragment.TOKEN, it)
         }
-
+        args.putString(ImageDialogFragment.CAMERA_NUMBER, handle)
+        alertDialogFragment.arguments = args
+        alertDialogFragment.show(manager, "ImageDialogFragment")
     }
 
     private fun checkLocationPermission(){
@@ -150,5 +148,4 @@ class ParkingSpacesActivity : AppCompatActivity(), OnItemClickListener {
     companion object {
         private const val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: Int = 2001
     }
-
 }
