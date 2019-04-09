@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">Pendel Parkering</string>
+	<string name="action_settings">Inställningar</string>
+	<string name="parking_area_parking_spaces">Platser: %1$d</string>
+	<string name="parking_area_free_parking_spaces">"Ledia platser: %1$d "</string>
+</resources>
