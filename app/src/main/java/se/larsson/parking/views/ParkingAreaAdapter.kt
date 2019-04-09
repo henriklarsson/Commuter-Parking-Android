@@ -29,11 +29,13 @@ class ParkingAreaAdapter (private var parkingLots: List<ParkingLot>, private val
             view.findViewById(R.id.parking_area_item_textview_number_of_parkings)
         val freeParkingSpacesTextView: TextView = view.findViewById(R.id.parking_area_item_textview_free_parkings)
         titleTextView.text = item.Name
-        numberOfParkingSpacesTextView.text = "Total spaces ${item.TotalCapacity}"
+        numberOfParkingSpacesTextView.text =
+            String.format(context.resources.getString(R.string.parking_area_parking_spaces), item.TotalCapacity)
         if (item.FreeSpaces == null){
             freeParkingSpacesTextView.visibility = View.GONE
         } else {
-            freeParkingSpacesTextView.text = "Free spaces ${item.FreeSpaces}"
+            freeParkingSpacesTextView.text =
+                String.format(context.resources.getString(R.string.parking_area_free_parking_spaces), item.FreeSpaces)
             freeParkingSpacesTextView.visibility = View.VISIBLE
         }
         cameraOne.visibility = View.GONE

@@ -25,42 +25,39 @@
 				android:layout_height="50dp"
 				android:layout_width="50dp"
 				android:id="@+id/parking_area_item_imageview_parking"
-
 				android:contentDescription="@string/parking_area_title"
 				android:cropToPadding="false"
 				android:adjustViewBounds="true"
-
 				app:layout_constraintBottom_toBottomOf="parent"
 				app:layout_constraintVertical_bias="0.0"
 				app:srcCompat="@drawable/parking_icon_96"
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toBottomOf="@+id/parking_area_item_textview_title"
 				app:layout_constraintEnd_toStartOf="@+id/parking_area_item_textview_number_of_parkings"
-				android:layout_marginStart="8dp" android:layout_marginTop="8dp"
+				android:layout_marginStart="8dp"
+				android:layout_marginTop="8dp"
 				card_view:layout_constraintTop_toTopOf="@+id/guideline5"
 				card_view:layout_constraintBottom_toTopOf="@+id/guideline5"/>
 		<TextView
 				android:id="@+id/parking_area_item_textview_number_of_parkings"
-				android:text="Total parking"
+				android:text="@string/parking_area_parking_spaces"
 				android:layout_width="142dp"
 				android:layout_height="wrap_content"
 				android:textSize="18sp"
 				app:layout_constraintStart_toEndOf="@+id/parking_area_item_imageview_parking"
-
 				android:layout_marginBottom="4dp" card_view:layout_constraintBottom_toTopOf="@+id/guideline5"
 				card_view:layout_constraintEnd_toStartOf="@+id/guideline"
 				android:layout_marginStart="8dp"/>
 		<TextView
 				android:id="@+id/parking_area_item_textview_free_parkings"
-				android:text="TextView"
+				android:text="@string/parking_area_free_parking_spaces"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:textSize="18sp"
 				card_view:layout_constraintEnd_toStartOf="@+id/guideline"
 				card_view:layout_constraintStart_toEndOf="@+id/parking_area_item_imageview_parking"
 				android:layout_marginStart="8dp" android:layout_marginTop="4dp"
-				card_view:layout_constraintTop_toTopOf="@+id/guideline5"
-		/>
+				card_view:layout_constraintTop_toTopOf="@+id/guideline5"/>
 		<de.hdodenhof.circleimageview.CircleImageView
 				xmlns:app="http://schemas.android.com/apk/res-auto"
 				android:id="@+id/parking_area_item_imageview_camera_one"
@@ -103,8 +100,7 @@
 											  card_view:layout_constraintStart_toStartOf="parent"
 											  android:layout_marginStart="306dp"
 											  card_view:layout_constraintEnd_toEndOf="parent"
-											  android:layout_marginEnd="102dp"
-		/>
+											  android:layout_marginEnd="102dp"/>
 		<android.support.constraint.Guideline android:layout_width="wrap_content" android:layout_height="wrap_content"
 											  android:id="@+id/guideline5" card_view:layout_constraintGuide_begin="72dp"
 											  android:orientation="horizontal"/>

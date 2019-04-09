@@ -9,8 +9,6 @@
         android:background="@color/lightGray"
         tools:context=".views.ParkingSpacesActivity">
 
-    <include layout="@layout/content_main"/>
-
     <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
@@ -26,6 +24,7 @@
             android:id="@+id/background_imageview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:contentDescription="@string/parking_empty_view"
             android:background="@drawable/parking_empty_view"/>
 
 </android.support.design.widget.CoordinatorLayout>

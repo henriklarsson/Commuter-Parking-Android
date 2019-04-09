@@ -10,13 +10,13 @@ interface ParkingService {
     @FormUrlEncoded
     @Headers("Authorization: Basic U0E1WjNxUnNpYlByRWloNkQ2YTY4SkZqNzZ3YTpQVnRmZzlCa2NZSzd5aUhjMjgyQktseHFPblVh")
     @POST("/token")
-    fun getAccessToken(@Field("grant_type") grantType: String = "client_credentials"): Deferred<Response<AccessToken>>
+    fun getAccessTokenAsync(@Field("grant_type") grantType: String = "client_credentials"): Deferred<Response<AccessToken>>
 
     @GET("/spp/v3/parkings")
-    fun getParkings(@Header("Authorization" ) authorization: String,
-                    @Query("format") format: String = "json",
-                    @Query( "lat") lat: Double? = null,
-                    @Query( "lon") lon: Double? = null,
-                    @Query("dist") dist: Int? = null,
-                    @Query("max") max: Int? = null): Deferred<Response<List<ParkingArea>>>
+    fun getParkingSpacesAsync(@Header("Authorization" ) authorization: String,
+                              @Query("format") format: String = "json",
+                              @Query( "lat") lat: Double? = null,
+                              @Query( "lon") lon: Double? = null,
+                              @Query("dist") dist: Int? = null,
+                              @Query("max") max: Int? = null): Deferred<Response<List<ParkingArea>>>
 }

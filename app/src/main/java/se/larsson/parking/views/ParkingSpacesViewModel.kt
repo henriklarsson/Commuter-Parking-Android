@@ -24,7 +24,7 @@ class ParkingSpacesViewModel: ViewModel() {
         } else {
             Log.d(TAG, "fetching new token")
             val oAuthService = HttpServices().getOAuthService()
-            val accessToken = oAuthService.getAccessToken()
+            val accessToken = oAuthService.getAccessTokenAsync()
             val tokenResponse = accessToken.await()
             return if (tokenResponse.isSuccessful){
                 token = tokenResponse.body()
@@ -48,7 +48,7 @@ class ParkingSpacesViewModel: ViewModel() {
             if (userLat != null && userLong != null){
                 distance = searchDistance
             }
-            val parkingSpacesResponse = parkingService.getParkings(authorization = "Bearer $it",
+            val parkingSpacesResponse = parkingService.getParkingSpacesAsync(authorization = "Bearer $it",
                     format = "json", lat = userLat, lon = userLong, dist = distance, max = max).await()
             parkingSpacesResponse.body()?.forEach { parkingAreas ->
                 Log.d(TAG, parkingAreas.toString())

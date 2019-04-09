@@ -2,4 +2,9 @@
     <string name="app_name">Parking</string>
     <string name="action_settings">Settings</string>
     <string name="parking_area_title">Parking Area title</string>
+	<string name="parking_empty_view">Loading image view</string>
+	<string name="dialog_background_image">Dialog background</string>
+	<string name="parking_area_parking_spaces">Parking spaces: %1$d </string>
+	<string name="parking_area_free_parking_spaces">Free parking spaces: %1$d </string>
+
 </resources>
