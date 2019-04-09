@@ -4,6 +4,7 @@
     <string name="parking_area_title" translatable="false">Parking Area title</string>
 	<string name="parking_empty_view" translatable="false">Loading image view</string>
 	<string name="dialog_background_image" translatable="false">Dialog background</string>
+	<string name="info_view" translatable="false">Info icon</string>
 	<string name="parking_area_parking_spaces">Parking spaces: %1$d</string>
 	<string name="parking_area_free_parking_spaces">Free parking spaces: %1$d </string>
 
