@@ -25,6 +25,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import se.larsson.parking.dialog.ImageDialogFragment
 import android.graphics.drawable.AnimationDrawable
+import se.larsson.parking.dialog.InfoDialogFragment
 import se.larsson.parking.network.models.ResponseResult
 
 class ParkingSpacesActivity : AppCompatActivity(), OnItemClickListener {
@@ -85,6 +86,10 @@ class ParkingSpacesActivity : AppCompatActivity(), OnItemClickListener {
             fabAnimation?.start()
             getLocation()
         }
+
+        info_imageview.setOnClickListener { view ->
+            showInfoDialog()
+        }
     }
 
     private fun getLocation(){
@@ -120,7 +125,11 @@ class ParkingSpacesActivity : AppCompatActivity(), OnItemClickListener {
             alertDialogFragment.arguments = args
             alertDialogFragment.show(manager, "ImageDialogFragment")
         }
-
+    }
+    private fun showInfoDialog() {
+        val manager = supportFragmentManager
+        val alertDialogFragment =  InfoDialogFragment()
+        alertDialogFragment.show(manager, "InfoDialogFragment")
     }
 
     private fun checkLocationPermission(){

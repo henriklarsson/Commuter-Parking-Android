@@ -26,5 +26,12 @@
             android:layout_height="match_parent"
             android:contentDescription="@string/parking_empty_view"
             android:background="@drawable/parking_empty_view"/>
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|end"
+            android:contentDescription="@string/info_view"
+            app:srcCompat="@android:drawable/ic_menu_info_details"
+            android:id="@+id/info_imageview"/>
 
 </android.support.design.widget.CoordinatorLayout>

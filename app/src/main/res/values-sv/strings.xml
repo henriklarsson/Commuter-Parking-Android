@@ -4,4 +4,8 @@
 	<string name="action_settings">Inställningar</string>
 	<string name="parking_area_parking_spaces">Platser: %1$d</string>
 	<string name="parking_area_free_parking_spaces">"Ledia platser: %1$d "</string>
+	<string name="info_dialog_title">About</string>
+	<string name="info_explanation">Appen använder Västtrafiks öppna API för att få tag i informationen som visas i
+		appen. Antalet platser som visas i appen kan skilja mot verkligheten.
+	</string>
 </resources>
