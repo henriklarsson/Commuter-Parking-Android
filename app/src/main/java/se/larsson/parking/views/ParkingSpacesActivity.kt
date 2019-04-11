@@ -25,8 +25,16 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import se.larsson.parking.dialog.ImageDialogFragment
 import android.graphics.drawable.AnimationDrawable
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
 import se.larsson.parking.dialog.InfoDialogFragment
 import se.larsson.parking.network.models.ResponseResult
+import android.hardware.usb.UsbDevice.getDeviceId
+import android.content.Context.TELEPHONY_SERVICE
+import android.support.v4.content.ContextCompat.getSystemService
+import android.telephony.TelephonyManager
+import android.content.Context
+
 
 class ParkingSpacesActivity : AppCompatActivity(), OnItemClickListener {
     var viewModel: ParkingSpacesViewModel? = null
@@ -44,6 +52,17 @@ class ParkingSpacesActivity : AppCompatActivity(), OnItemClickListener {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+//        val telephonyManager1 = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+//        val imei = telephonyManager1.deviceId
+        MobileAds.initialize(this, "ca-app-pub-8384659766694860~7157465096")
+//        val adRequest = AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+//            .addTestDevice(imei).build()
+
+        val statusAfterInit = MobileAds.getInitializationStatus()
+        statusAfterInit.adapterStatusMap.forEach { t, u ->
+            Log.d(TAG, "MobileAds status: $t , $u")
+        }
+
         setContentView(R.layout.activity_main)
         viewModel = ViewModelProviders.of(this).get(ParkingSpacesViewModel::class.java)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
@@ -88,8 +107,17 @@ class ParkingSpacesActivity : AppCompatActivity(), OnItemClickListener {
         }
 
         info_imageview.setOnClickListener { view ->
-            showInfoDialog()
+//            showInfoDialog()
+
+            val statusAfterInit = MobileAds.getInitializationStatus()
+            statusAfterInit.adapterStatusMap.forEach { t, u ->
+
+                Log.d(TAG, "MobileAds description: ${u.description} , initializationState:" +
+                        " ${u.initializationState} latency: ${u.latency}")
+            }
+            initAds()
         }
+        initAds()
     }
 
     private fun getLocation(){
@@ -154,6 +182,11 @@ class ParkingSpacesActivity : AppCompatActivity(), OnItemClickListener {
                 return
             }
         }
+    }
+
+    private fun initAds(){
+        val adRequest = AdRequest.Builder().build()
+        adView.loadAd(adRequest)
     }
 
     companion object {
