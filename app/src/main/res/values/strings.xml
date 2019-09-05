@@ -26,8 +26,7 @@
 		See the License for the specific language governing permissions and
 		limitations under the License.</string>
 	<string name="location_permission">The location permission is requested so the parking areas can be sorted based on
-		distance.
-	</string>
-	<string name="bullet">bullet</string>
+		distance.</string>
+	<string name="bullet" translatable="false">bullet</string>
 
 </resources>

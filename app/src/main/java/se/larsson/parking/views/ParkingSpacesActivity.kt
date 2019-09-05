@@ -34,11 +34,13 @@ import android.content.Context.TELEPHONY_SERVICE
 import android.support.v4.content.ContextCompat.getSystemService
 import android.telephony.TelephonyManager
 import android.content.Context
+import com.google.android.gms.ads.AdView
 
 
 class ParkingSpacesActivity : AppCompatActivity(), OnItemClickListener {
     var viewModel: ParkingSpacesViewModel? = null
     var location: Location? = null
+    lateinit var mAdView : AdView
 
     override fun onItemClick(item: ParkingLot, camera: ParkingCamera) {
         Log.d(TAG, "On item clicked $item")
@@ -54,16 +56,27 @@ class ParkingSpacesActivity : AppCompatActivity(), OnItemClickListener {
         super.onCreate(savedInstanceState)
 //        val telephonyManager1 = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
 //        val imei = telephonyManager1.deviceId
+        setContentView(R.layout.activity_main)
         MobileAds.initialize(this, "ca-app-pub-8384659766694860~7157465096")
-//        val adRequest = AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-//            .addTestDevice(imei).build()
+        val adRequest = AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+            .addTestDevice(imei).build()
+        mAdView = adView
+
+        val adRequest = AdRequest.Builder().build()
+        mAdView.loadAd(adRequest)
 
         val statusAfterInit = MobileAds.getInitializationStatus()
         statusAfterInit.adapterStatusMap.forEach { t, u ->
-            Log.d(TAG, "MobileAds status: $t , $u")
+
+            Log.d(TAG, "MobileAds description: ${u.description} , initializationState:" +
+                    " ${u.initializationState} latency: ${u.latency}")
         }
 
-        setContentView(R.layout.activity_main)
+
+
+
+
+
         viewModel = ViewModelProviders.of(this).get(ParkingSpacesViewModel::class.java)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         viewManager = LinearLayoutManager(this)
@@ -117,7 +130,6 @@ class ParkingSpacesActivity : AppCompatActivity(), OnItemClickListener {
             }
             initAds()
         }
-        initAds()
     }
 
     private fun getLocation(){
@@ -185,8 +197,9 @@ class ParkingSpacesActivity : AppCompatActivity(), OnItemClickListener {
     }
 
     private fun initAds(){
-        val adRequest = AdRequest.Builder().build()
-        adView.loadAd(adRequest)
+        val adRequest =  AdRequest.Builder().addTestDevice("3BD86B228C1860DB6BEF7E6B1CE0F99B").build()
+        adView.loadAd(AdRequest.Builder().addTestDevice("3BD86B228C1860DB6BEF7E6B1CE0F99B").build() )
+
     }
 
     companion object {

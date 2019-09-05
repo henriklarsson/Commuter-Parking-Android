@@ -50,9 +50,6 @@ class ParkingSpacesViewModel: ViewModel() {
             }
             val parkingSpacesResponse = parkingService.getParkingSpacesAsync(authorization = "Bearer $it",
                     format = "json", lat = userLat, lon = userLong, dist = distance, max = max).await()
-            parkingSpacesResponse.body()?.forEach { parkingAreas ->
-                Log.d(TAG, parkingAreas.toString())
-            }
             if (parkingSpacesResponse.isSuccessful){
                 Log.d(TAG, "parking response success ${parkingSpacesResponse.code()}")
                 val receivedParkingLots = mutableListOf<ParkingLot>()

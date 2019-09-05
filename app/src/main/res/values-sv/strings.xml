@@ -8,4 +8,7 @@
 	<string name="info_explanation">Appen använder Västtrafiks öppna API för att få tag i informationen som visas i
 		appen. Antalet platser som visas i appen kan skilja mot verkligheten.
 	</string>
+	<string name="location_permission">Platsinformationen används för att visa en lista som är
+		sorterad på avståndet till parkeringsplatsen
+	</string>
 </resources>
